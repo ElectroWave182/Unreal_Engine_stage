@@ -1,4 +1,9 @@
 {
     "adresse": "192.168.56.101",
-    "rafraichissement": 1
+    "rafraichissement": 1,
+    "protocole": "TCP - Universal Robots",
+    "niveaux": {
+        "TCP": 2,
+        "TCP - Universal Robots": 4
+    }
 }
