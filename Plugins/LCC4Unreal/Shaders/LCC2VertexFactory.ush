@@ -1,0 +1,582 @@
+﻿// Copyright XGrids, Inc. All Rights Reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/VertexFactoryCommon.ush"
+
+float SplatScale;
+float GlobalAlpha;
+float2 Elevation;
+half3 ElevationColorBottom;
+half3 ElevationColorTop;
+half ImportScale;
+uint SplatSize;
+bool bUseRTK;
+float4x4 RTKMatrix;
+half4 Offset;
+half4 Contrast;
+half4 Saturation;
+half4 Gamma;
+half3 Tint;
+half AnimationMinScale;
+float3 AnimationOriginOffset;
+half AnimationSpeed;
+half AnimationStartTime;
+half Animation3DGSTime;
+float CurrentTime;
+half4 AnimationPointColor;
+half4 Animation3DGSColor;
+half ScanLineThickness;
+float QuadExtentThreshold;
+float SmallSplatThreshold;
+float4x4 ClippingVolume[LCC_MAX_CLIPPING_VOLUME];
+uint NumClippingVolumes;
+float4x4 SectionPlane[LCC_MAX_SECTION_PLANE];
+uint NumSectionPlanes;
+
+static float2 PrecomputedUV_Quad[4] = {float2(0, 0), float2(1, 1), float2(1, 0), float2(0, 1)};
+static float2 PrecomputedVertex[4] = {float2(-1.0, -1.0), float2(1.0, 1.0), float2(1.0, -1.0), float2(-1.0, 1.0)};
+static int MaxVertexIndex = 4;
+static const float fpb = 255.0f;
+static const float SQRT2 = 1.4142135623730951;
+static const float InvSQRT2 = 0.70710678118f;
+static const float Inv255 = 0.003921568627451;
+static const int QLut[16] = {3, 0, 1, 2, 0, 3, 1, 2, 0, 1, 3, 2, 0, 1, 2, 3};
+static const float SH_C0 = 0.28209479177387814;
+static const float SH_C1 = 0.4886025119029199;
+static const float SH_C2[5] = {
+    1.0925484305920792, -1.0925484305920792, 0.31539156525252005, -1.0925484305920792, 0.5462742152960396
+};
+static const float SH_C3[7] = {
+    -0.5900435899266435, 2.890611442640554, -0.4570457994644658, 0.3731763325901154, -0.4570457994644658,
+    1.445305721320277, -0.5900435899266435
+};
+
+struct CalculatedSplatInfo
+{
+    float3 Position;
+    float4 WorldPosition;
+    float2 QuadPos;
+    float4 Color;
+    float4 Conic_O;
+    float2 CenterCoord;
+};
+
+#ifndef LIXEL_LCC2_SPLATDATA_IMPLE
+#error LIXEL_LCC2_SPLATDATA_IMPLE must be defined
+#endif
+
+LIXEL_LCC2_SPLATDATA_IMPLE
+
+struct FVertexFactoryInput
+{
+    float4 Position : ATTRIBUTE0;
+    uint VertexId : SV_VertexID;
+    uint InstanceId : SV_InstanceID;
+};
+
+struct FVertexFactoryInterpolantsVSToPS
+{
+    TANGENTTOWORLD_INTERPOLATOR_BLOCK
+
+    float4 Color : COLOR0;
+    float2 TexCoords : TEXCOORD0;
+    float4 Conic_O : TEXCOORD1;
+    float2 CenterCoord : TEXCOORD2;
+
+#if INSTANCED_STEREO
+	nointerpolation uint EyeIndex : PACKED_EYE_INDEX;
+#endif
+};
+
+struct FVertexFactoryIntermediates
+{
+    half3x3 TangentToLocal;
+    half3x3 TangentToWorld;
+    half TangentToWorldSign;
+    float4 Color;
+    float3 Position;
+    float4 WorldPosition;
+    float4 Conic_O;
+    float2 CenterCoord;
+    /** Cached primitive and instance data */
+    FSceneDataIntermediates SceneData;
+    //cache user data
+    float GlobalAlpha;
+    uint SplatIndex;
+    half ImportScale;
+    uint SplatSize;
+    float SplatScale;
+#if ENGINE_MINOR_VERSION >= 4
+    FDFMatrix TLocalToWorld;
+    FDFInverseMatrix TWorldToLocal;
+#else
+    FLWCMatrix TLocalToWorld;
+    FLWCInverseMatrix TWorldToLocal;
+#endif
+    bool bUseRTK;
+    float4x4 RTKMatrix;
+    bool bEnableAnimatin;
+    uint EyeIndex;
+};
+
+FPrimitiveSceneData GetPrimitiveData(FVertexFactoryIntermediates Intermediates)
+{
+    return Intermediates.SceneData.Primitive;
+}
+
+FInstanceSceneData GetInstanceData(FVertexFactoryIntermediates Intermediates)
+{
+    return Intermediates.SceneData.InstanceData;
+}
+
+float4 DecodeRotation(uint enc)
+{
+    float4 pq = float4(
+        (enc & 255) / fpb,
+        ((enc >> 8) & 255) / fpb,
+        ((enc >> 16) & 255) / fpb,
+        ((enc >> 24) & 255) / fpb);
+    uint idx = (uint(pq.w * fpb) - 252u) & 0x3u;
+    float4 q;
+    q.xyz = pq.xyz * SQRT2 - InvSQRT2;
+    q.w = sqrt(1.0 - saturate(dot(q.xyz, q.xyz)));
+    float4 p = float4(q[QLut[idx * 4]], q[QLut[idx * 4 + 1]], q[QLut[idx * 4 + 2]], q[QLut[idx * 4 + 3]]);
+    return p.yzwx;
+}
+
+float3 HSV2RGB(float3 HSV)
+{
+    float h = HSV.x; // hue
+    float s = HSV.y; // Saturation [0, 1]
+    float v = HSV.z; // Value [0, 1]    
+
+    float C = v * s;
+    float X = C * (1 - abs((h / 60) % 2 - 1));
+    float m = v - C;
+
+    float3 RGB = 0;
+    if (h >= 0 && h < 60)
+    {
+        RGB.r = C;
+        RGB.g = X;
+    }
+    else if (h >= 60 && h < 120)
+    {
+        RGB.r = X;
+        RGB.g = C;
+    }
+    else if (h >= 120 && h < 180)
+    {
+        RGB.g = C;
+        RGB.b = X;
+    }
+    else if (h >= 180 && h < 240)
+    {
+        RGB.g = X;
+        RGB.b = C;
+    }
+    else if (h >= 240 && h < 300)
+    {
+        RGB.r = X;
+        RGB.b = C;
+    }
+    else if (h >= 300 && h < 360)
+    {
+        RGB.r = C;
+        RGB.b = X;
+    }
+
+    RGB += m;
+    return RGB;
+}
+
+LIXEL_LCC2_APPLY_CLIP
+
+LIXEL_LCC2_APPLY_SECTION
+
+FSplatData LoadSHData(FVertexFactoryIntermediates Intermediates, FSplatData Splat)
+{
+#if LCC_USE_SHCOEF
+    LIXEL_LCC2_LOADSH_IMPLE
+#endif
+    return Splat;
+}
+
+#ifndef LIXEL_LCC2_SH_IMPLE
+#error LIXEL_LCC2_SH_IMPLE must be defined
+#endif
+
+LIXEL_LCC2_SH_IMPLE
+
+FSplatData GetSplatScale(FVertexFactoryIntermediates Intermediates, FSplatData Data, uint Offset)
+{
+#if LCC_USE_POINT_CLOUD
+    float3 ElevationColor = float3(lerp(ElevationColorBottom, ElevationColorTop, clamp((Data.Position.z - Elevation.x) / (Elevation.y - Elevation.x), 0, 1)));
+    Data.Color = float4(HSV2RGB(ElevationColor),Intermediates.GlobalAlpha);
+#else
+    LIXEL_LCC2_SPLATTRANSFORM_IMPLE
+#endif
+
+
+    
+    return Data;
+}
+
+#ifndef LIXEL_LCC2_MAKESPLATE_IMPLE
+#error LIXEL_LCC2_MAKESPLATE_IMPLE must be defined
+#endif
+
+LIXEL_LCC2_MAKESPLATE_IMPLE
+
+float3 UseSH(FVertexFactoryIntermediates Intermediates, FSplatData Splat, float3 rgb, float4 ScreenPos)
+{
+#if LCC_USE_SHCOEF
+    LIXEL_LCC2_USESH_IMPLE
+#else
+    return rgb;
+#endif
+}
+
+half3x3 CalcTangentToLocal()
+{
+    half3x3 TangentToLocal;
+    // In this mode, [0] and [1] are only really used for scaling
+    TangentToLocal[0] = ResolvedView.ViewRight;
+    TangentToLocal[1] = ResolvedView.ViewUp;
+    // Hardcoded to have the lighting behave more correctly
+    TangentToLocal[2] = float3(0, 0, 1);
+    return TangentToLocal;
+}
+
+half3x3 CalcTangentToWorldNoScale(FVertexFactoryIntermediates Intermediates)
+{
+#if ENGINE_MINOR_VERSION > 3
+    half3x3 LocalToWorld = DFToFloat3x3(GetPrimitiveData(Intermediates).LocalToWorld);
+#else
+    half3x3 LocalToWorld = LWCToFloat3x3(GetPrimitiveData(Intermediates).LocalToWorld);
+#endif
+
+    half3 InvScale = GetPrimitiveData(Intermediates).InvNonUniformScale;
+    LocalToWorld[0] *= InvScale.x;
+    LocalToWorld[1] *= InvScale.y;
+    LocalToWorld[2] *= InvScale.z;
+    return mul(Intermediates.TangentToLocal, LocalToWorld);
+}
+
+float4x4 GetRotationMatrix(float4 rot)
+{
+    float x = rot.x;
+    float y = rot.y;
+    float z = rot.z;
+    float w = rot.w;
+
+    float4x4 mr = float4x4(
+        1.0 - 2.0 * (y * y + z * z), 2.0 * (x * y - w * z), 2.0 * (x * z + w * y), 0.0,
+        2.0 * (x * y + w * z), 1.0 - 2.0 * (x * x + z * z), 2.0 * (y * z - w * x), 0.0,
+        2.0 * (x * z - w * y), 2.0 * (y * z + w * x), 1.0 - 2.0 * (x * x + y * y), 0.0,
+        0.0, 0.0, 0.0, 1.0
+    );
+    return mr;
+}
+
+float4x4 GetScaleMatrix(float3 Scale)
+{
+    float4x4 ms = float4x4(
+        Scale.x, 0, 0, 0,
+        0, Scale.y, 0, 0,
+        0, 0, Scale.z, 0,
+        0, 0, 0, 0
+    );
+
+    return ms;
+}
+
+float4x4 MatrixFromRotationScale(FVertexFactoryIntermediates Intermediates, float4 Rot, float3 Scale)
+{
+    float4 UniformScale = GetPrimitiveData(Intermediates).NonUniformScale;
+
+    Scale = float3(Scale.x * Pow2(UniformScale.x), Scale.y * Pow2(UniformScale.y), Scale.z * Pow2(UniformScale.z));
+
+    Scale *= Intermediates.SplatScale;
+
+    float4x4 ms = GetScaleMatrix(Scale);
+
+    float4x4 mr = GetRotationMatrix(Rot);
+
+    mr = mul(Intermediates.TWorldToLocal.M, mr);
+
+    float4x4 ret = mul(mr, ms);
+
+    ret = mul(ret, transpose(ret));
+
+    return ret;
+}
+
+float ArcTangent2(float A, float B, float Period)
+{
+    //  1/(2*pi) = 0.15915494309189533576888376337251
+    return Period * atan2(A, B) * 0.159154943;
+}
+
+float3 SRGBToLinear(float3 Color)
+{
+    Color = max(6.10352e-5, Color); // minimum positive non-denormal (fixes black problem on DX11 AMD and NV)
+    return Color > 0.04045 ? pow(Color * (1.0 / 1.055) + 0.0521327, 2.4) : Color * (1.0 / 12.92);
+}
+
+#ifndef LIXEL_LCC2_CALCULATESPLATE_IMPLE
+#error LIXEL_LCC2_CALCULATESPLATE_IMPLE must be defined
+#endif
+
+LIXEL_LCC2_CALCULATESPLATE_IMPLE
+
+FVertexFactoryIntermediates GetVertexFactoryIntermediates(FVertexFactoryInput Input)
+{
+    FVertexFactoryIntermediates Intermediates = (FVertexFactoryIntermediates)0;
+    Intermediates.GlobalAlpha = GlobalAlpha;
+    Intermediates.ImportScale = ImportScale;
+    Intermediates.SplatSize = SplatSize;
+    Intermediates.SplatScale = SplatScale;
+    Intermediates.EyeIndex = GetEyeIndexFromVF(Input);
+
+#if !LCC_USE_POINT_CLOUD
+    Intermediates.SceneData = VF_GPUSCENE_GET_INTERMEDIATES(Input);
+    Intermediates.TLocalToWorld = GetPrimitiveData(Intermediates).LocalToWorld;
+    Intermediates.TWorldToLocal = GetPrimitiveData(Intermediates).WorldToLocal;
+    Intermediates.bUseRTK = bUseRTK;
+    if (Intermediates.bUseRTK)
+    {
+        Intermediates.TWorldToLocal.M = RTKMatrix;
+        Intermediates.TLocalToWorld.M = transpose(RTKMatrix);
+    }
+    Intermediates.TangentToLocal = CalcTangentToLocal();
+    Intermediates.TangentToWorldSign = Intermediates.SceneData.InstanceData.DeterminantSign;
+    Intermediates.TangentToWorld = CalcTangentToWorldNoScale(Intermediates);
+#endif
+
+    Intermediates.SplatIndex = LCC2VF.IndexBuffer[GetInstanceId(Input.InstanceId)];
+
+    FSplatData Splat = GetSplat(Intermediates, Input);
+
+    Splat.Position = LCC2ApplyClip(Splat.Position);
+    Splat.Position = LCC2ApplySection(Splat.Position);
+
+    Intermediates.bEnableAnimatin = AnimationSpeed != 0;
+    if (Intermediates.bEnableAnimatin)
+    {
+        float dis = distance(Splat.Position, AnimationOriginOffset);
+        float dur = CurrentTime - AnimationStartTime;
+        float dur3DGS = CurrentTime - Animation3DGSTime;
+        float dis2 = dur * AnimationSpeed;
+        float dis3 = dur3DGS * AnimationSpeed;
+        if (dis2 < dis)
+        {
+            Splat.Position = asfloat(0x7fc00000);
+        }
+        else
+        {
+            float alpha = 0;
+            if (abs(dis2 - dis) < ScanLineThickness && AnimationPointColor.w)
+            {
+                Splat.Color.rgb = AnimationPointColor.rgb;
+            }
+#if !LCC2_USE_POINT_CLOUD
+            if (abs(dis3 - dis) < ScanLineThickness && Animation3DGSColor.w)
+            {
+                Splat.Color.rgb = Animation3DGSColor.rgb;
+            }
+            alpha = dis3 > dis;
+#endif
+            float3 MinScale = Splat.Scale * AnimationMinScale;
+            Splat.Scale = lerp(MinScale, Splat.Scale, alpha);
+        }
+    }
+
+#if LCC_USE_POINT_CLOUD
+    Intermediates.Position = float4(Splat.Position,0);
+    float3 position = TransformLocalToTranslatedWorld(Splat.Position.xyz).xyz;
+    Intermediates.WorldPosition = float4(position,1.0);
+    Intermediates.Color = Splat.Color;
+#else
+
+    CalculatedSplatInfo o = CalculateSplat(Input, Intermediates, Splat);
+
+    Intermediates.Position = o.Position;
+    Intermediates.WorldPosition = o.WorldPosition;
+    Intermediates.Conic_O = float4(o.Conic_O.rgb, o.Conic_O.a * Intermediates.GlobalAlpha);
+    Intermediates.CenterCoord = o.CenterCoord;
+
+    LIXEL_COLOR_ADJUSTMENT
+
+    Intermediates.Color = float4(o.Color.rgb, o.Color.a * Intermediates.GlobalAlpha);
+
+#endif
+    return Intermediates;
+}
+
+FVertexFactoryInterpolantsVSToPS VertexFactoryGetInterpolantsVSToPS(FVertexFactoryInput Input,
+                                                                    FVertexFactoryIntermediates Intermediates,
+                                                                    FMaterialVertexParameters VertexParameters)
+{
+    FVertexFactoryInterpolantsVSToPS Interpolants = (FVertexFactoryInterpolantsVSToPS)0;
+
+#if LCC_USE_POINT_CLOUD
+    //do nothing
+#else
+    Interpolants.TangentToWorld0 = float4(Intermediates.TangentToWorld[0], 0);
+    Interpolants.TangentToWorld2 = float4(Intermediates.TangentToWorld[2], Intermediates.TangentToWorldSign);
+    Interpolants.TexCoords = PrecomputedUV_Quad[Input.VertexId]; // Using inverted V
+    Interpolants.Conic_O = Intermediates.Conic_O;
+    Interpolants.CenterCoord = Intermediates.CenterCoord;
+#endif
+
+    Interpolants.Color = Intermediates.Color;
+
+#if INSTANCED_STEREO
+	Interpolants.EyeIndex = GetEyeIndexFromVF(Input);
+#endif
+
+    return Interpolants;
+}
+
+half3x3 VertexFactoryGetTangentToLocal(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates)
+{
+    return Intermediates.TangentToLocal;
+}
+
+// @return translated world position
+float4 VertexFactoryGetWorldPosition(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates)
+{
+    return Intermediates.WorldPosition;
+}
+
+float4 VertexFactoryGetRasterizedWorldPosition(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates,
+                                               float4 InWorldPosition)
+{
+    return InWorldPosition;
+}
+
+float3 VertexFactoryGetPositionForVertexLighting(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates,
+                                                 float3 TranslatedWorldPosition)
+{
+    return TranslatedWorldPosition;
+}
+
+float3 VertexFactoryGetWorldNormal(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates)
+{
+    return Intermediates.TangentToWorld[2];
+}
+
+float4 VertexFactoryGetPreviousWorldPosition(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates)
+{
+#if ENGINE_MINOR_VERSION > 3
+    return mul(float4(Intermediates.Position, 1), DFMultiplyTranslationDemote(
+                   Intermediates.SceneData.InstanceData.PrevLocalToWorld,
+                   ResolvedView.PrevPreViewTranslation));
+#else
+    return mul(float4(Intermediates.Position, 1), LWCMultiplyTranslation(
+                   Intermediates.SceneData.InstanceData.PrevLocalToWorld,
+                   ResolvedView.PrevPreViewTranslation));
+#endif
+}
+
+/** Converts from vertex factory specific input to a FMaterialVertexParameters, which is used by vertex shader material inputs. */
+FMaterialVertexParameters GetMaterialVertexParameters(FVertexFactoryInput Input,
+                                                      FVertexFactoryIntermediates Intermediates, float3 WorldPosition,
+                                                      half3x3 TangentToLocal)
+{
+#if ENGINE_MINOR_VERSION >= 3
+    FMaterialVertexParameters Result = MakeInitializedMaterialVertexParameters();
+#else
+    FMaterialVertexParameters Result = FMaterialVertexParameters(0);
+#endif
+
+    Result.SceneData = Intermediates.SceneData;
+    Result.WorldPosition = WorldPosition;
+    Result.TangentToWorld = Intermediates.TangentToWorld;
+    Result.PreSkinnedNormal = TangentToLocal[2];
+    Result.PreSkinnedPosition = WorldPosition;
+    Result.VertexColor = Intermediates.Color;
+
+#if NUM_MATERIAL_TEXCOORDS_VERTEX
+	Result.TexCoords[0] = PrecomputedUV_Quad[Input.VertexId % MaxVertexIndex];
+#endif
+
+    return Result;
+}
+
+FMaterialPixelParameters GetMaterialPixelParameters(FVertexFactoryInterpolantsVSToPS Interpolants, float4 SvPosition)
+{
+#if ENGINE_MINOR_VERSION >= 3
+    FMaterialPixelParameters Result = MakeInitializedMaterialPixelParameters();
+#else
+    FMaterialPixelParameters Result = FMaterialPixelParameters(0);
+#endif
+
+    float4 Color = Interpolants.Color;
+
+#if LCC_USE_POINT_CLOUD
+    Result.VertexColor = Color;
+#else
+    Result.TwoSidedSign = 0;
+    float2 d = SvPosition.xy - Interpolants.CenterCoord.xy;
+    float power = -0.5 * (Interpolants.Conic_O.x * d.x * d.x + Interpolants.Conic_O.z * d.y * d.y)
+        - Interpolants.Conic_O.y * d.x * d.y;
+    if (power > 0.0) discard;
+    float A = Interpolants.Conic_O.w * exp(power);
+    if (A < Inv255) discard;
+
+    Color = float4(Color.rgb, A);
+    Color.rgb = saturate(Color.rgb);
+
+    Result.VertexColor = Color;
+    half3 TangentToWorld0 = Interpolants.TangentToWorld0.xyz;
+    half4 TangentToWorld2 = Interpolants.TangentToWorld2;
+    Result.UnMirrored = TangentToWorld2.w;
+    Result.TangentToWorld = AssembleTangentToWorld(TangentToWorld0, TangentToWorld2);
+#endif
+
+#if NUM_TEX_COORD_INTERPOLATORS
+    Result.TexCoords[0] = Interpolants.TexCoords;
+#endif
+
+    return Result;
+}
+
+#if USE_INSTANCING
+float4 VertexFactoryGetInstanceHitProxyId(FVertexFactoryInput Input, FVertexFactoryIntermediates Intermediates) { return 0; }
+#endif
+
+#if ENGINE_MINOR_VERSION < 3
+uint GetPrimitiveId(FVertexFactoryInterpolantsVSToPS Interpolants)
+{
+#if VF_USE_PRIMITIVE_SCENE_DATA
+    return Interpolants.PrimitiveId;
+#else
+    return 0;
+#endif
+}
+#endif
+
+float4 VertexFactoryGetTranslatedPrimitiveVolumeBounds(FVertexFactoryInterpolantsVSToPS Interpolants)
+{
+    FPrimitiveSceneData PrimitiveData = GetPrimitiveData(GetPrimitiveId(Interpolants));
+
+    return float4(LWCToFloat(LWCAdd(PrimitiveData.ObjectWorldPosition, ResolvedView.PreViewTranslation)),
+                  PrimitiveData.ObjectRadius);
+}
+
+uint VertexFactoryGetPrimitiveId(FVertexFactoryInterpolantsVSToPS Interpolants)
+{
+    return GetPrimitiveId(Interpolants);
+}
+
+FVertexFactoryInput LoadVertexFactoryInputFromIndices(uint TriangleIndex, int VertexIndex)
+{
+    FVertexFactoryInput Input = (FVertexFactoryInput)0;
+    Input.VertexId = TriangleIndex * 3 + VertexIndex;
+    return Input;
+}
+
+
+#include "/Engine/Private/VertexFactoryDefaultInterface.ush"

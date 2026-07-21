@@ -1,0 +1,15 @@
+[submodule "Plugins/EasyFileDialog"]
+	path = Plugins/EasyFileDialog
+	url = https://github.com/unrealsumon/EasyFileDialog
+[submodule "Plugins/glTFRuntime"]
+	path = Plugins/glTFRuntime
+	url = https://github.com/rdeioris/glTFRuntime.git
+[submodule "Plugins/glTFRuntimeOBJ"]
+	path = Plugins/glTFRuntimeOBJ
+	url = https://github.com/rdeioris/glTFRuntimeOBJ
+[submodule "Plugins/glTFRuntimeFBX"]
+	path = Plugins/glTFRuntimeFBX
+	url = https://github.com/rdeioris/glTFRuntimeFBX
+[submodule "Plugins/glTFRuntimeConvexCollisions"]
+	path = Plugins/glTFRuntimeConvexCollisions
+	url = https://github.com/rdeioris/glTFRuntimeConvexCollisions

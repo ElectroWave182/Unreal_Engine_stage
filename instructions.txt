@@ -1,2 +1,0 @@
-Installer Node-RED, et l'ajouter aux variables d'environnement système :
-https://nodered.org/docs/getting-started/local
