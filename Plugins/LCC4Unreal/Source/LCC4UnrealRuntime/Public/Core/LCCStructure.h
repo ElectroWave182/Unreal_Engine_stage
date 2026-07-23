@@ -9,6 +9,7 @@
 #include "UObject/UObjectGlobals.h"
 #include "Camera/CameraTypes.h"
 #include "LCCDefinition.h"
+#include "LCCEnum.h"
 #include "ConvexVolume.h"
 #include "Containers/StaticArray.h"
 #include "LCCStructure.generated.h"
@@ -31,10 +32,13 @@ struct FRenderInfo
     UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
     bool bMaxSplatNumLimit;
     /**
-     * The maximum number of splats will be rendered, others will be discarded.
+     * The maximum number of splats rendered per frame; any beyond this are discarded.
+     * Unit is ten-thousand splats. Very large values are automatically limited to what
+     * the GPU can render in a single frame.
      */
     UPROPERTY(EditAnywhere, Category = "XGrids",
-        meta = (EditCondition="bMaxSplatNumLimit", DisplayName="Max Splat Num(Ten Thousand)"))
+        meta = (EditCondition="bMaxSplatNumLimit", DisplayName="Max Splat Num(Ten Thousand)",
+            ClampMax="10000", UIMax="10000"))
     uint32 MaxSplatNum;
 
     UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
@@ -187,7 +191,7 @@ struct FRenderInfo
     {
         return bCanSetLevelFactor ? LevelFactor : 1;
     }
-	
+
     FORCEINLINE uint32 GetStartLevel() const
     {
         return bCanSetStartLevel ? StartLevel : 0;
@@ -231,68 +235,68 @@ struct FRenderInfo
 USTRUCT(BlueprintType)
 struct FLCCRenderInfo
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
-	bool bCanSetSortFactor;
+    UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
+    bool bCanSetSortFactor;
 
-	/**
-	* Multiply the default SortFrequencyForLevel(ProjectSetting/Plugin/LCC4Unreal) by a value to enlarge or reduce.
-	* SortFrequencyForLevel determines the node level's sort frequency when rendering.
-	* The larger this value, the lower sort number, and the better the performance
-	* It is recommended to keep this value at 1, or you can increase it for better performance 
-	*/
-	UPROPERTY(EditAnywhere, Category = "XGrids",
-		meta = (EditCondition="bCanSetSortFactor", UIMin="0.2", ClampMin = "0.2", UIMax= "5", ClampMax = "5"))
-	float SortFactor;
+    /**
+    * Multiply the default SortFrequencyForLevel(ProjectSetting/Plugin/LCC4Unreal) by a value to enlarge or reduce.
+    * SortFrequencyForLevel determines the node level's sort frequency when rendering.
+    * The larger this value, the lower sort number, and the better the performance
+    * It is recommended to keep this value at 1, or you can increase it for better performance 
+    */
+    UPROPERTY(EditAnywhere, Category = "XGrids",
+        meta = (EditCondition="bCanSetSortFactor", UIMin="0.2", ClampMin = "0.2", UIMax= "5", ClampMax = "5"))
+    float SortFactor;
 
-	UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
-	bool bEnableExtraPreNodes;
+    UPROPERTY(EditAnywhere, Category = "XGrids", meta = (InlineEditConditionToggle))
+    bool bEnableExtraPreNodes;
 
-	/**
-	 * If this is enabled, the LCC will add extra preload nodes to the queue.
-	 * This can help solve the problem of screen edge holes caused by rapid rotation.
-	 * However, it may also increase the number of nodes that need to be rendered.
-	 * */
-	UPROPERTY(EditAnywhere, Category = "XGrids", DisplayName="Add Extra Preload Nodes",
-		meta=(EditCondition="bEnableExtraPreNodes"))
-	bool bAddExtraPreNodes;
+    /**
+     * If this is enabled, the LCC will add extra preload nodes to the queue.
+     * This can help solve the problem of screen edge holes caused by rapid rotation.
+     * However, it may also increase the number of nodes that need to be rendered.
+     * */
+    UPROPERTY(EditAnywhere, Category = "XGrids", DisplayName="Add Extra Preload Nodes",
+        meta=(EditCondition="bEnableExtraPreNodes"))
+    bool bAddExtraPreNodes;
 
-	FLCCRenderInfo()
-		: bCanSetSortFactor(false)
-		  , SortFactor(1)
-		  , bEnableExtraPreNodes(false)
-		  , bAddExtraPreNodes(LCC_ADD_EXTRA_PRELOAD)
-	{
-	}
+    FLCCRenderInfo()
+        : bCanSetSortFactor(false)
+          , SortFactor(1)
+          , bEnableExtraPreNodes(false)
+          , bAddExtraPreNodes(LCC_ADD_EXTRA_PRELOAD)
+    {
+    }
 
-	FORCEINLINE bool operator==(const FLCCRenderInfo& Other) const
-	{
-		return SortFactor == Other.SortFactor
-			&& bCanSetSortFactor == Other.bCanSetSortFactor
-			&& bEnableExtraPreNodes == Other.bEnableExtraPreNodes
-			&& bAddExtraPreNodes == Other.bAddExtraPreNodes;
-	}
+    FORCEINLINE bool operator==(const FLCCRenderInfo& Other) const
+    {
+        return SortFactor == Other.SortFactor
+            && bCanSetSortFactor == Other.bCanSetSortFactor
+            && bEnableExtraPreNodes == Other.bEnableExtraPreNodes
+            && bAddExtraPreNodes == Other.bAddExtraPreNodes;
+    }
 
-	FORCEINLINE float GetSortFactor() const
-	{
-		return bCanSetSortFactor ? SortFactor : 1;
-	}
+    FORCEINLINE float GetSortFactor() const
+    {
+        return bCanSetSortFactor ? SortFactor : 1;
+    }
 
-	FORCEINLINE bool GetIfAddExtraPreNodes() const
-	{
-		if (!bEnableExtraPreNodes)
-		{
-			return LCC_ADD_EXTRA_PRELOAD;
-		}
-		return bAddExtraPreNodes;
-	}
+    FORCEINLINE bool GetIfAddExtraPreNodes() const
+    {
+        if (!bEnableExtraPreNodes)
+        {
+            return LCC_ADD_EXTRA_PRELOAD;
+        }
+        return bAddExtraPreNodes;
+    }
 
-	void Reset()
-	{
-		SortFactor = 1;
-		bAddExtraPreNodes = LCC_ADD_EXTRA_PRELOAD;
-	}
+    void Reset()
+    {
+        SortFactor = 1;
+        bAddExtraPreNodes = LCC_ADD_EXTRA_PRELOAD;
+    }
 };
 
 USTRUCT(BlueprintType)
@@ -570,6 +574,34 @@ struct FTreeNode
 
     UPROPERTY()
     FTreeNodeData Data;
+
+    /**
+     * Iteratively clear the tree to avoid stack overflow from recursive destructor
+     * when the tree is very deep. Call this before the node goes out of scope.
+     */
+    void ClearIterative()
+    {
+        // BFS to collect all nodes in breadth-first order
+        TArray<FTreeNode*> AllNodes;
+        AllNodes.Reserve(256);
+        AllNodes.Push(this);
+
+        for (int32 i = 0; i < AllNodes.Num(); ++i)
+        {
+            FTreeNode* Current = AllNodes[i];
+            for (FTreeNode& Child : Current->Children)
+            {
+                AllNodes.Push(&Child);
+            }
+        }
+
+        // Clear in reverse order (leaves first) so each Reset() destroys
+        // only empty FTreeNode objects (no recursive descent).
+        for (int32 i = AllNodes.Num() - 1; i >= 0; --i)
+        {
+            AllNodes[i]->Children.Reset();
+        }
+    }
 };
 
 USTRUCT(BlueprintType)
@@ -577,12 +609,15 @@ struct FLCC2MetaInfo : public FMetaInfoBase
 {
     GENERATED_BODY()
 
-    FLCC2MetaInfo(): EnvName(0)
+    FLCC2MetaInfo(): SplatType(EDataSourceType::SOG), EnvName(-1)
     {
     }
 
     // lcc2 folder path
     FString WorkPath;
+
+    // Data source format type (SOG/SPZ)
+    EDataSourceType SplatType;
 
     // Env file index 
     UPROPERTY()

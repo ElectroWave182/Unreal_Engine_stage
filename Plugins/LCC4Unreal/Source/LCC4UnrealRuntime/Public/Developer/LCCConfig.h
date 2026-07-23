@@ -54,17 +54,29 @@ public:
     uint32 DefaultSplatNumForDiscardPerNode;
 
     UPROPERTY(config, EditAnywhere, Category = "AntiAliasing", meta = (
-        DisplayName = "Splat Anti-aliasing Method",
-        ToolTip = "Determines the anti-aliasing method when rendering mode is 3dgs, will override system settings.",
+        DisplayName = "LCC1 Splat Anti-aliasing Method",
+        ToolTip = "Determines the anti-aliasing method when rendering LCC1 3DGS (no depth). Default: FXAA.",
         ConfigRestartRequired = false))
-    TEnumAsByte<EAntiAliasingMethod> SplatMethod;
+    TEnumAsByte<EAntiAliasingMethod> LCC1SplatMethod;
 
     UPROPERTY(config, EditAnywhere, Category = "AntiAliasing", meta = (
-        DisplayName = "Point Cloud Anti-aliasing Method",
-        ToolTip =
-        "Determines the anti-aliasing method when rendering mode is point cloud, will override system settings.",
+        DisplayName = "LCC2 Splat Anti-aliasing Method",
+        ToolTip = "Determines the anti-aliasing method when rendering LCC2 3DGS (with depth). Default: TSR.",
         ConfigRestartRequired = false))
-    TEnumAsByte<EAntiAliasingMethod> PointCloudMethod;
+    TEnumAsByte<EAntiAliasingMethod> LCC2SplatMethod;
+
+    UPROPERTY(config, EditAnywhere, Category = "AntiAliasing", meta = (
+        DisplayName = "LCC1 Point Cloud Anti-aliasing Method",
+        ToolTip =
+        "Determines the anti-aliasing method when rendering LCC1 point cloud (no depth). Default: MSAA.",
+        ConfigRestartRequired = false))
+    TEnumAsByte<EAntiAliasingMethod> LCC1PointCloudMethod;
+
+    UPROPERTY(config, EditAnywhere, Category = "AntiAliasing", meta = (
+        DisplayName = "LCC2 Point Cloud Anti-aliasing Method",
+        ToolTip = "Determines the anti-aliasing method when rendering LCC2 point cloud (with depth). Default: TSR.",
+        ConfigRestartRequired = false))
+    TEnumAsByte<EAntiAliasingMethod> LCC2PointCloudMethod;
 
     UPROPERTY(config, EditAnywhere, Category = "Usage", meta = (
         //ConsoleVariable = "XGrids.MaxCPUUsagePercentageForRelease",
@@ -101,6 +113,14 @@ public:
         ClampMin = "10",
         ClampMax = "100"))
     uint32 GPUReleasePercentage;
+
+    UPROPERTY(config, EditAnywhere, Category = "Usage", meta = (
+        DisplayName = "LCC2 GPU Memory Budget (MB)",
+        ToolTip = "Maximum GPU memory budget for a single LCC2 model (all buffers combined). Higher values allow more splats to be GPU-resident simultaneously. Actual budget may be lower due to platform buffer size limits or available VRAM. Requires restart to take effect.",
+        ConfigRestartRequired = true,
+        ClampMin = "2048",
+        ClampMax = "8192"))
+    uint32 LCC2GPUMemoryBudget;
 
     UPROPERTY(config, EditAnywhere, Category = "Import / Export", meta = (
         //ConsoleVariable = "XGrids.ImportScale",
@@ -218,6 +238,18 @@ public:
     int32 SortBits;
 
     UPROPERTY(config, EditAnywhere, Category = "Rendering", meta = (
+        DisplayName = "Enable Post Process",
+        ToolTip = "When enabled, LCC pixels undergo InverseACES tonemap to participate in engine post-processing pipeline. When disabled, pre-tonemap snapshot is restored after tonemap via alpha blending. All LCC components in the scene use the same mode.",
+        ConfigRestartRequired = false))
+    bool bEnablePostProcess = true;
+
+    UPROPERTY(config, EditAnywhere, Category = "Rendering", meta = (
+        DisplayName = "Apply Tonemap Inverse",
+        ToolTip = "When enabled, applies FilmToneMapInverse to LCC color during color-space conversion so that the engine tonemap reproduces the original captured appearance. Applies to both LCC1 and LCC2.",
+        ConfigRestartRequired = false))
+    bool bApplyTonemapInverse = false;
+
+    UPROPERTY(config, EditAnywhere, Category = "Rendering", meta = (
         ConsoleVariable = "r.LCC2.QuadExtentThreshold",
         DisplayName = "Quad Extent Threshold",
         ToolTip = "Controls how far the splat quad extends from the Gaussian center. Higher values produce tighter quads with less overdraw, but may clip edges of semi-transparent splats. Default: 0.006, Original: 0.004 (1/255).",
@@ -261,4 +293,10 @@ public:
 
     ULCCConfig();
     virtual FName GetCategoryName() const override;
+
+#if WITH_EDITOR
+    /** Show a notification if PropagateAlpha is disabled (required for correct alpha blending). */
+    static void NotifyPropagateAlphaIfNeeded();
+    virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 };

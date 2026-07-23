@@ -2,10 +2,12 @@
 
 #include "/Engine/Private/Common.ush"
 #include "/Engine/Private/VertexFactoryCommon.ush"
+#include "/Engine/Generated/UniformBuffers/LCCClip.ush"
 
 float3 BoundMin;
 float3 BoundMax;
 bool bUseSeamCut;
+bool bUseMipFilter;
 float3 ScaleMin;
 float3 ScaleMax;
 float3 SHMin;
@@ -35,10 +37,6 @@ float CurrentTime;
 half4 AnimationPointColor;
 half4 Animation3DGSColor;
 half ScanLineThickness;
-float4x4 ClippingVolume[LCC_MAX_CLIPPING_VOLUME];
-uint NumClippingVolumes;
-float4x4 SectionPlane[LCC_MAX_SECTION_PLANE];
-uint NumSectionPlanes;
 
 #if LCC_USE_QUAD
 static float2 PrecomputedUV_Quad[4] = { float2(0, 0), float2(1, 1), float2(1, 0), float2(0, 1) };
@@ -127,13 +125,9 @@ struct FVertexFactoryInterpolantsVSToPS
 
     float4 Color : COLOR0;
     float2 TexCoords : TEXCOORD0;
-    float2 QuadPos : TEXCOORD1;
-    float3 BoundMin : TEXCOORD2;
-    float3 BoundMax : TEXCOORD3;
-    float3 WorldPosition : TEXCOORD4;
-    nointerpolation uint UseSeamCut : TEXCOORD5;
-    float4 Conic_O : TEXCOORD6;
-    float2 CenterCoord : TEXCOORD7;
+    float3 WorldPosition : TEXCOORD1;
+    float4 Conic_O : TEXCOORD2;
+    float2 CenterCoord : TEXCOORD3;
 
 #if INSTANCED_STEREO
 	nointerpolation uint EyeIndex : PACKED_EYE_INDEX;
@@ -142,16 +136,12 @@ struct FVertexFactoryInterpolantsVSToPS
 
 struct FVertexFactoryIntermediates
 {
-    float3 BoundMin;
-    float3 BoundMax;
-    bool bUseSeamCut;
     half3x3 TangentToLocal;
     half3x3 TangentToWorld;
     half TangentToWorldSign;
     float4 Color;
     float3 Position;
     float4 WorldPosition;
-    float2 QuadPos;
     float4 Conic_O;
     float2 CenterCoord;
     /** Cached primitive and instance data */
@@ -457,15 +447,10 @@ FVertexFactoryIntermediates GetVertexFactoryIntermediates(FVertexFactoryInput In
 #if LCC_USE_POINT_CLOUD
     Intermediates.SplatIndex = GetInstanceId(Input.InstanceId);
 #else
-    static const float3 boundMin = BoundMin;
-    Intermediates.BoundMin = boundMin;
-    static const float3 boundMax = BoundMax;
-    Intermediates.BoundMax = boundMax;
     Intermediates.SceneData = VF_GPUSCENE_GET_INTERMEDIATES(Input);
     Intermediates.TLocalToWorld = GetPrimitiveData(Intermediates).LocalToWorld;
     Intermediates.TWorldToLocal = GetPrimitiveData(Intermediates).WorldToLocal;
     Intermediates.bUseRTK = bUseRTK;
-    Intermediates.bUseSeamCut = bUseSeamCut;
     if (Intermediates.bUseRTK)
     {
         Intermediates.TWorldToLocal.M = RTKMatrix;
@@ -523,7 +508,7 @@ FVertexFactoryIntermediates GetVertexFactoryIntermediates(FVertexFactoryInput In
     }
 
 #if LCC_USE_POINT_CLOUD
-    Intermediates.Position = float4(Splat.Position,0);
+    Intermediates.Position = Splat.Position;
     float3 position = TransformLocalToTranslatedWorld(Splat.Position.xyz).xyz;
     Intermediates.WorldPosition = float4(position,1.0);
     Intermediates.Color = Splat.Color;
@@ -539,7 +524,6 @@ FVertexFactoryIntermediates GetVertexFactoryIntermediates(FVertexFactoryInput In
     LIXEL_COLOR_ADJUSTMENT
 
     Intermediates.Color = float4(o.Color.rgb, o.Color.a * Intermediates.GlobalAlpha);
-    Intermediates.QuadPos = o.QuadPos;
 
 #endif
     return Intermediates;
@@ -557,12 +541,6 @@ FVertexFactoryInterpolantsVSToPS VertexFactoryGetInterpolantsVSToPS(FVertexFacto
     Interpolants.TangentToWorld0 = float4(Intermediates.TangentToWorld[0], 0);
     Interpolants.TangentToWorld2 = float4(Intermediates.TangentToWorld[2], Intermediates.TangentToWorldSign);
     Interpolants.TexCoords = PrecomputedUV_Quad[Input.VertexId]; // Using inverted V
-    Interpolants.QuadPos = Intermediates.QuadPos;
-    static const float3 boundMin = Intermediates.BoundMin;
-    static const float3 boundMax = Intermediates.BoundMax;
-    Interpolants.BoundMin = boundMin;
-    Interpolants.BoundMax = boundMax;
-    Interpolants.UseSeamCut = Intermediates.bUseSeamCut;
     Interpolants.Conic_O = Intermediates.Conic_O;
     Interpolants.CenterCoord = Intermediates.CenterCoord;
 #if ENGINE_MINOR_VERSION >= 4
@@ -681,11 +659,11 @@ FMaterialPixelParameters GetMaterialPixelParameters(FVertexFactoryInterpolantsVS
 
     Color = float4(Color.rgb, A);
     Color.rgb = saturate(Color.rgb);
-    if (Interpolants.UseSeamCut)
+    if (bUseSeamCut)
     {
         const float3 delta = float3(0.00001, 0.00000, 0.00000);
-        const float3 inside = step(Interpolants.BoundMin - delta, Interpolants.WorldPosition) * step(
-            Interpolants.WorldPosition, Interpolants.BoundMax + delta);
+        const float3 inside = step(BoundMin - delta, Interpolants.WorldPosition) * step(
+            Interpolants.WorldPosition, BoundMax + delta);
         if (inside.x * inside.y <= 0.5)
         {
             discard;

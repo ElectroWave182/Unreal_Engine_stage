@@ -20,29 +20,29 @@ class LCC4UNREALRUNTIME_API ALCCActorBase : public AActor
     /**
      * Open a file dialog to select a lcc file
      */
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Developer",
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Actions",
         meta=(DisplayName = "Load", DisplayPriority = 1))
     virtual void SelectFile();
 
     /**
      * Unload the lcc file 
      */
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Developer",
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Actions",
         meta=(DisplayName = "UnLoad", DisplayPriority = 2))
     virtual void UnLoad();
 
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Developer", meta=(DisplayPriority = 3))
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Actions", meta=(DisplayPriority = 3))
     virtual void Refresh();
 
     /** Open the Node visualization to visually node bound and level.
      * The color of NodeBox represents the node Level (red, orange, yellow, green, blue, purple)
      * red is the lowest level (highest detail), and white is the highest level (lowest detail)
      */
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Developer",
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Actions",
         meta=(DisplayName = "Debug Node Bound", DisplayPriority = 4))
     void DebugNodeBound();
 
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Developer", meta=(DisplayPriority = 5))
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Actions", meta=(DisplayPriority = 5))
     void Stats();
 
     UPROPERTY(Category = "XGrids",

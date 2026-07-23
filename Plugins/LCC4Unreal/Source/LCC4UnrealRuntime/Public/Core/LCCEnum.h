@@ -176,3 +176,27 @@ enum class EComputeType : uint8
     Compute UMETA(ToolTip="Pass uses compute on the graphics pipe."),
     AsyncCompute UMETA(ToolTip="Pass uses compute on the async compute pipe.")
 };
+
+UENUM(BlueprintType)
+enum class ELCC2NormalGenerationMode : uint8
+{
+    Fixed UMETA(DisplayName="Fixed",
+                ToolTip="Approximate lighting (no true geometry normals). One user-specified world normal (default: up) for the ENTIRE splat, so the whole splat shares a single brightness = dot(normal, light dir). Pros: no diagonal band, fully stable as the camera moves, very cheap. Cons: no shape shading at all, and the whole splat dims (or goes dark) when the light comes from the back side of the chosen normal. Default."),
+    ViewFacing UMETA(DisplayName="View Facing",
+                     ToolTip="Approximate lighting (no true geometry normals). The whole splat faces the camera, so it is evenly lit with no diagonal band. Pros: simple, works with no setup. Cons: no shape shading, and the overall brightness changes as the camera rotates."),
+    Hemispherical UMETA(DisplayName="Hemispherical",
+                        ToolTip="Approximate lighting (no true geometry normals). Camera-independent normal mapped from screen position onto a fixed world hemisphere, so a directional light sweeps smoothly across the splat as a curved light/dark boundary. Pros: no diagonal band, stable as the camera moves, smoother sun sweep than the other approximations. Cons: still not real shape shading; tune Normal Pole (sweep orientation) and Hemi Spread (contrast)."),
+    ProxyMesh UMETA(DisplayName="Proxy Mesh",
+                    ToolTip="The only mode with real shape shading. A scene-placed ALCC2ProxyMesh supplies real scene depth and normals; the 3DGS only contributes color. Pros: accurate, geometry-based normals and depth. Cons: requires authoring and placing a matching proxy mesh; licensed feature (falls back to Fixed when unlicensed).")
+};
+
+/**
+ * Data source format type for LCC2 trees.
+ * Determines which decoder and shader permutation to use.
+ */
+enum class EDataSourceType : uint8
+{
+    SOG = 0,
+    SPZ = 1,
+    PLY = 2,
+};

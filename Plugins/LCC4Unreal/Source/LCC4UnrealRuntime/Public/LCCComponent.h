@@ -61,6 +61,7 @@ protected:
     virtual bool CheckIfLoaded() const override;
     virtual bool CanRender() const override;
     virtual FMetaInfoBase GetMetaInfo() const override;
+    virtual FBox GetLocalVisibleBounds() const override;
 
     /**
      * Check if meta info is valid.
@@ -69,6 +70,10 @@ protected:
 
     virtual bool HaveValidSplatData() override;
     virtual TSharedPtr<LCCCollisionManagerBase> CreateCollisionManager() override;
+
+#if WITH_EDITOR
+    virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 
     /**
      * Performs a raycast test against the lcc.

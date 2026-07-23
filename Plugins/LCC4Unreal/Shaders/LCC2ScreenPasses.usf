@@ -1,0 +1,128 @@
+// Copyright XGrids, Inc. All Rights Reserved.
+// =============================================================================
+// LCC2ScreenPasses.usf
+//
+// Thin shell for the consolidated fullscreen helper pixel shaders. The binding
+// layout is declared here (so the C++ FParameters structs have something to
+// compile against), but every pixel-shader body is injected by the C++ side
+// as a virtual include. See LCC2ScreenPassesShaderSource.inl.
+//
+// SHADER_VERSION 21 (bump to invalidate cache when editing the .inl source)
+// =============================================================================
+
+#include "/Engine/Public/Platform.ush"
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ColorSpace.ush"
+#include "/Engine/Private/TonemapCommon.ush"
+#include "/Engine/Private/GammaCorrectionCommon.ush"
+
+// -----------------------------------------------------------------------------
+// Bindings (shared by multiple entry points; redundant declarations for an
+// entry point that doesn't use a given binding are dropped by the HLSL
+// compiler).
+// -----------------------------------------------------------------------------
+
+Texture2D GaussianColorTexture;
+SamplerState GaussianColorSampler;
+Texture2D<float> CompositeDepthTexture;
+SamplerState CompositeDepthSampler;
+uint bCompositeLit;
+uint bEnablePostProcess;
+uint bLCCWorkingColorSpaceEnabled;
+uint bApplyTonemapInverse;
+float DirectionalLightIntensity;
+float GaussianCoverageEpsilon;
+float LightingScale;
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+Texture2D PreTonemapSnapshot;
+SamplerState PreTonemapSampler;
+float DisplayGamma;
+uint bForceFullCoverage;
+float LCCPreExposure;
+
+Texture2D DepthInputTexture;
+SamplerState DepthInputSampler;
+
+Texture2D<float> CustomDepthTexture;
+Texture2D<uint2> CustomStencilTexture;
+Texture2D<float> SceneDepthTexture;
+float ProxyMeshDepthEpsilon;
+float LCC2_FarDepthValue;
+
+SamplerState SceneDepthSampler;
+
+float4x4 ClipToTranslatedWorld;
+float4 ViewSizeAndInvSize;
+float2 ViewRectMin;
+float3 CameraPosition;
+float3 CameraForward;
+float NearPlane;
+float NormalHemiSpread;
+float ApproxNormalSpread;
+float3 NormalPole;
+float3 FixedNormal;
+uint NormalGenMode;
+
+uint bLit;
+uint bLitMode;
+float3 MainLightDir;
+
+float Epsilon;
+
+uint bHasCustomStencil;
+
+int HoleFillRadiusSmall;
+int HoleFillRadiusLarge;
+float HoleFillMedianThreshold;
+ByteAddressBuffer PackedDepthBuffer;
+uint DepthBufferWidth;
+
+// -----------------------------------------------------------------------------
+// Each entry-point body lives behind a virtual include, gated by a compile-
+// time switch set by the C++ side (LCC2_ENTRY_*). Only the entry point
+// targeted by the current FGlobalShader compile is emitted, keeping each
+// variant's DXIL small and letting the SV_Depth validator see a single
+// function that actually writes its depth output.
+// -----------------------------------------------------------------------------
+
+#if LCC2_ENTRY_COLORSPACECONVERT
+#include "/Engine/Generated/LCC2ScreenPasses_ColorSpaceConvert.ush"
+#endif
+
+#if LCC2_ENTRY_COMPOSITE_MAIN
+#include "/Engine/Generated/LCC2ScreenPasses_Composite_Main.ush"
+#endif
+
+#if LCC2_ENTRY_COMPOSITE_POSTTONEMAP
+#include "/Engine/Generated/LCC2ScreenPasses_Composite_PostTonemap.ush"
+#endif
+
+#if LCC2_ENTRY_WRITEMEDIANDEPTH
+#include "/Engine/Generated/LCC2ScreenPasses_WriteMedianDepth.ush"
+#endif
+
+#if LCC2_ENTRY_BUILDPROXYAWAREDEPTH
+#include "/Engine/Generated/LCC2ScreenPasses_BuildProxyAwareDepth.ush"
+#endif
+
+#if LCC2_ENTRY_WRITEGBUFFER_APPROXIMATED
+#include "/Engine/Generated/LCC2ScreenPasses_WriteGBuffer_Approximated.ush"
+#endif
+
+#if LCC2_ENTRY_WRITEGBUFFER_PROXYMESH
+#include "/Engine/Generated/LCC2ScreenPasses_WriteGBuffer_ProxyMesh.ush"
+#endif
+
+#if LCC2_ENTRY_WRITEGBUFFER_PROXYMESHNOCOVER
+#include "/Engine/Generated/LCC2ScreenPasses_WriteGBuffer_ProxyMeshNoCover.ush"
+#endif
+
+#if LCC2_ENTRY_GBUFFERCCLEAR
+#include "/Engine/Generated/LCC2ScreenPasses_GBufferCClear.ush"
+#endif
+
+#if LCC2_ENTRY_FILLDEPTHHOLES
+#include "/Engine/Generated/LCC2ScreenPasses_FillDepthHoles.ush"
+#endif

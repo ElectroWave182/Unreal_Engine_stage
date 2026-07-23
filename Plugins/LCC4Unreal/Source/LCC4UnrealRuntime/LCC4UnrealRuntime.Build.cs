@@ -29,7 +29,9 @@ public class LCC4UnrealRuntime : ModuleRules
 		);
 
 		var Version = Target.Version;
-		if (Version.MajorVersion >= 5 && Version.MinorVersion >= 6)
+		// FPostProcessingInputs / FTranslucencyPassResources live under Renderer/Internal
+		// starting with UE 5.4 (needed by the PrePostProcessPass InverseACES path).
+		if (Version.MajorVersion >= 5 && Version.MinorVersion >= 4)
 			PrivateIncludePaths.AddRange(
 				new[]
 				{
@@ -69,7 +71,6 @@ public class LCC4UnrealRuntime : ModuleRules
 				"OpenSSL",
 				"GeoReferencing",
 				"LCC4UnrealCesium",
-				"OpenColorIO",
 				"LibWebp",
 				"LCCLibZip"
 			}
@@ -90,5 +91,12 @@ public class LCC4UnrealRuntime : ModuleRules
 
 		var ResourcePath = Path.GetFullPath(Path.Combine(ModuleDirectory, "../../Resources/"));
 		RuntimeDependencies.Add(Path.Combine(ResourcePath, "public_key.pem"));
+
+		// GPU memory monitoring: PDH (Performance Data Helper) for Windows
+		if (Target.Platform == UnrealTargetPlatform.Win64)
+		{
+			PublicSystemLibraries.Add("pdh.lib");
+			PublicSystemLibraries.Add("dxgi.lib");
+		}
 	}
 }

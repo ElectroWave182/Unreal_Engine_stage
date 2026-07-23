@@ -1,9 +1,9 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0.0",
+	"VersionName": "3.0.0",
 	"FriendlyName": "LCC4Unreal",
-	"Description": "Adds support for importing, processing and rendering of LCC format 3D Gaussian Splatting.",
+	"Description": "Adds support for importing, processing and rendering of 3D Gaussian Splatting in multiple formats (LCC, LCC2, SOG, SPZ, PLY).",
 	"Category": "Rendering",
 	"CreatedBy": "XGrids",
 	"CreatedByURL": "https://www.xgrids.cn",
@@ -103,7 +103,14 @@
 		{
 			"Name": "CesiumForUnreal",
 			"Enabled": true,
-			"Optional": true
+			"Optional": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux",
+				"Android",
+				"IOS"
+			]
 		},
 		{
 			"Name": "OpenColorIO",

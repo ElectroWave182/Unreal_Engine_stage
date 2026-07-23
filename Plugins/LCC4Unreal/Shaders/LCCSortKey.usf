@@ -1,4 +1,6 @@
 // Copyright XGrids, Inc. All Rights Reserved.
+// Shader cache version tag. Do not remove.
+// SHADER_VERSION 1
 
 #include "/Engine/Public/Platform.ush"
 

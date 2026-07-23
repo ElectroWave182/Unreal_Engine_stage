@@ -1,0 +1,82 @@
+// Copyright XGrids, Inc. All Rights Reserved.
+// =============================================================================
+// LCC2MedianDepth.usf
+//
+// NOTE: When modifying shader logic in LCC2MedianDepthShaderSource.inl (virtual
+// includes), you MUST also touch this file (e.g. bump the version below) to
+// invalidate UE's shader cache. UE hashes only on-disk .usf content, not the
+// C++ IncludeVirtualPathToContentsMap strings, so changes to the .inl alone
+// will not trigger recompilation.
+//
+// SHADER_VERSION 8
+//
+// Thin shell for the 3DGS splatting shader. The binding layout (SplatBuffer,
+// IndexBuffer, packed-depth UAV, SH codebook, clipping / section arrays, ...)
+// lives here so the C++ FLCC2MedianDepthVS / FLCC2MedianDepthPS parameter
+// structs have something to compile against, but every interesting function
+// body and HLSL data structure is injected by the C++ side as a virtual
+// include. See LCC2MedianDepthShaderSource.inl for the implementations.
+// =============================================================================
+
+#include "/Engine/Public/Platform.ush"
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/VertexFactoryCommon.ush"
+
+// -----------------------------------------------------------------------------
+// Bindings (must stay in sync with FLCC2MedianDepthVS / FLCC2MedianDepthPS
+// parameter structs in LCC2MedianDepthPass.h).
+// -----------------------------------------------------------------------------
+uint SplatSize;
+float ImportScale;
+float SplatScale;
+float GlobalAlpha;
+uint bUseMipFilter;
+float T_mid;
+float T_min;
+float4x4 LocalToWorld;
+float4x4 WorldToLocal;
+int bUseRTK;
+float4x4 RTKMatrix;
+uint NumClippingVolumes;
+ByteAddressBuffer ClippingVolumeBuffer;
+uint NumSectionPlanes;
+ByteAddressBuffer SectionPlaneBuffer;
+half4 Saturation;
+half4 Contrast;
+half4 Gamma;
+half4 ColorOffset;
+half3 Tint;
+uint bPointCloud;
+float GlobalAlpha_PointCloud;
+float2 Elevation;
+half3 ElevationColorBottom;
+half3 ElevationColorTop;
+float AnimationSpeed;
+float AnimationMinScale;
+float3 AnimationOriginOffset;
+float AnimationStartTime;
+float Animation3DGSTime;
+float CurrentTime;
+half4 AnimationPointColor;
+half4 Animation3DGSColor;
+float ScanLineThickness;
+uint bUseSH;
+ByteAddressBuffer ShNCodebookBuffer;
+ByteAddressBuffer SHBuffer;
+ByteAddressBuffer SplatBuffer;
+Buffer<uint> IndexBuffer;
+uint bLit;
+float AlphaThreshold;
+uint DepthBufferWidth;
+RWByteAddressBuffer PackedDepthBuffer;
+RWTexture2D<float> DepthOutputBuffer;
+
+#include "/Engine/Generated/LCC2MedianDepthHelpers.ush"
+
+#if VERTEXSHADER
+#include "/Engine/Generated/LCC2MedianDepthVS.ush"
+#endif
+
+#if PIXELSHADER
+#include "/Engine/Generated/LCC2MedianDepthPS.ush"
+#endif

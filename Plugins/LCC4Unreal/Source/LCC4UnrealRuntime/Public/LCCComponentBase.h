@@ -15,7 +15,6 @@
 class ALCCSectionPlane;
 class ALCCClippingVolume;
 class UBodySetup;
-class UPostProcessComponent;
 class LCCNodeManager;
 class ULCCRenderSystem;
 class LCCCollisionManagerBase;
@@ -48,7 +47,7 @@ public:
     /**
      * Several options that affect performance
      */
-    UPROPERTY(Interp, EditAnywhere, BlueprintReadOnly, Category = "XGrids|Performance",DisplayName="Base")
+    UPROPERTY(Interp, EditAnywhere, BlueprintReadOnly, Category = "XGrids|Performance", DisplayName="Base")
     FRenderInfo Performance;
 
     /**
@@ -103,6 +102,16 @@ public:
     float GlobalAlpha;
 
     /**
+    * If true, use the Mip filter (alias-free) when rasterizing splats: a small 2D
+    * low-pass with opacity compensation to reduce flickering at different scales.
+    * If false, fall back to the original 3DGS-style low-pass without compensation
+    * (sharper but may alias).
+    */
+    UPROPERTY(Interp, EditAnywhere, BlueprintSetter="SetUseMipFilter", Category = "XGrids",
+        meta = (EditCondition = "RenderMode == ERenderMode::Splatting", EditConditionHides))
+    bool bUseMipFilter;
+
+    /**
     * Control point cloud alpha
     */
     UPROPERTY(Interp, EditAnywhere, BlueprintSetter="SetGlobalAlpha_PointCloud", Category = "XGrids",
@@ -154,10 +163,18 @@ public:
     FLinearColor ColorTint;
 
     /**
+     * If false, hides bReceiveShadows in the Details panel.
+     * Subclasses can set this to false in their constructor to hide the property.
+     */
+    UPROPERTY()
+    bool bShowReceiveShadows = true;
+
+    /**
     * Whether the lcc scene receives shadows(Lcc scene must render as 3DGS).
     * Enabling this feature may have a large impact on performance.
     */
-    UPROPERTY(Interp, EditAnywhere, Category = "XGrids|Experimental")
+    UPROPERTY(Interp, EditAnywhere, Category = "XGrids|Experimental",
+        meta = (EditCondition = "bShowReceiveShadows", EditConditionHides, HideEditConditionToggle))
     bool bReceiveShadows;
 
     /**
@@ -175,16 +192,7 @@ public:
     UPROPERTY(Interp, EditAnywhere, BlueprintSetter="SetElevationColorTop", Category = "XGrids|Point Cloud")
     FLinearColor ElevationColorTop;
 
-    /**
-     * Because the engine's built-in tonemap will cause LCC color errors, tonemap is turned off by default.
-     * This will cause coloring errors for other objects in the scene.
-     * You can turn this off to get the correct coloring of other objects (You can use TonemapScale to adjust the LCC scene color)
-     *
-     * 2025-12-18
-     * We use SceneExtension to resolve Tonemap Issue,and this var should always be true
-     */
-    // UPROPERTY(Interp, EditAnywhere, BlueprintSetter="SetReplaceTonemap", Category = "XGrids")
-    bool bReplaceTonemap;
+
 
     /** You can add up to 500 Clipping Volumes to clip LCC scenes.*/
     UPROPERTY(Interp, EditAnywhere, BlueprintReadOnly, Category = "XGrids")
@@ -208,10 +216,18 @@ public:
     float OverrideMainCameraFOV;
 
     /**
+     * If false, hides bEnableMultipleLCCActorAutoSort in the Details panel.
+     * Subclasses can set this to false in their constructor to hide the property.
+     */
+    UPROPERTY()
+    bool bShowMultipleLCCActorAutoSort = true;
+
+    /**
      * If true,this actor will sort by distance and set translucent sort priority.
      */
     UPROPERTY(Interp, EditAnywhere, BlueprintReadOnly, AdvancedDisplay, Category = "XGrids",
-        DisplayName="Enable Multiple LCCActor Auto Sort")
+        DisplayName="Enable Multiple LCCActor Auto Sort",
+        meta = (EditCondition = "bShowMultipleLCCActorAutoSort", EditConditionHides, HideEditConditionToggle))
     bool bEnableMultipleLCCActorAutoSort;
 
     /**
@@ -433,7 +449,7 @@ public:
     FORCEINLINE ELightMode GetLightMode() const { return LightMode; }
 
     UFUNCTION(BlueprintCallable, Category = "XGrids")
-    void SetLightMode(ELightMode InLightMode);
+    virtual void SetLightMode(ELightMode InLightMode);
 
     UFUNCTION(BlueprintCallable, Category = "XGrids")
     void EnableReceiveShadows();
@@ -471,19 +487,18 @@ public:
     void SetGlobalAlpha(float InGlobalAlpha);
 
     UFUNCTION(BlueprintPure, Category = "XGrids")
+    FORCEINLINE bool GetUseMipFilter() const { return bUseMipFilter; }
+
+    UFUNCTION(BlueprintCallable, Category = "XGrids")
+    void SetUseMipFilter(bool InUseMipFilter);
+
+    UFUNCTION(BlueprintPure, Category = "XGrids")
     FORCEINLINE float GetGlobalAlpha_PointCloud() const { return GlobalAlpha_PointCloud; }
 
     UFUNCTION(BlueprintCallable, Category = "XGrids")
     void SetGlobalAlpha_PointCloud(float InGlobalAlpha);
 
-    UFUNCTION(BlueprintPure, Category = "XGrids")
-    FORCEINLINE bool GetReplaceTonemap() const { return bReplaceTonemap; }
 
-    // we can't use this function now
-    // wu must ensure bReplaceTonemap is true
-    // we use SceneExtension to resolve Tonemap Issue,and this need PostProcessMaterial 
-    // UFUNCTION(BlueprintCallable, Category = "XGrids")
-    void SetReplaceTonemap(bool InReplaceTonemap);
 
     UFUNCTION(BlueprintCallable, Category = "XGrids")
     int GetSplatNumber() const;
@@ -538,6 +553,14 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "XGrids")
     virtual FMetaInfoBase GetMetaInfo() const;
+
+    /**
+     * Returns the model's visible bounding box in component-local (engine) space.
+     * Callers transform it by GetComponentTransform() for world space.
+     * Returns an invalid box (FBox(ForceInit)) when unavailable.
+     */
+    UFUNCTION(BlueprintPure, Category = "XGrids")
+    virtual FBox GetLocalVisibleBounds() const;
 
     /**
      * Force lcc scene update, this will update the lcc scene in the next frame.
@@ -633,7 +656,7 @@ public:
      */
     virtual bool NeedSortActor() const;
 
-    FLCCComponentRenderParams GetRenderParams() const;;
+    FLCCComponentRenderParams GetRenderParams(double InRenderTime = 0.0) const;
 
     /**
      * Get all clipping volumes in the scene
@@ -645,9 +668,12 @@ public:
      */
     TArray<FLCCSectionPlane> GetSectionPlanes();
 
+    virtual ELCCVersion GetLccVersion() const;
+
 protected:
     //override
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void PostLoad() override;
     virtual void OnComponentCreated() override;
     virtual void BeginDestroy() override;
@@ -671,7 +697,7 @@ protected:
      * Change material by LightMode
      * @param InLightMode Current LightMode
      */
-    void ToggleLightModeMaterial(ELightMode InLightMode);
+    virtual void ToggleLightModeMaterial(ELightMode InLightMode);
 
     /**
      * Load lcc scene
@@ -702,7 +728,7 @@ protected:
      * Check if meta info is valid.
      */
     virtual bool IsMetaInfoValid() const;
-	
+
     /**
      * Add offset for actor when lcc use geo position
      */
@@ -741,12 +767,9 @@ protected:
     TObjectPtr<UMaterialInterface> BaseMaterial_Unlit;
     UPROPERTY(Transient)
     TObjectPtr<UMaterialInterface> BaseMaterial_Lit;
-    UPROPERTY(Transient)
-    TObjectPtr<UMaterialInterface> ReplaceTonemapMaterial;
+
     UPROPERTY(Transient)
     TObjectPtr<UMaterialInterface> BaseMaterial_ReceiveShadows;
-    UPROPERTY(Transient)
-    TObjectPtr<UPostProcessComponent> PostProcessComponent;
     UPROPERTY(Transient)
     TObjectPtr<class UBodySetup> BodySetup;
     /** Queue for async body setups that are being cooked */
@@ -792,4 +815,12 @@ protected:
     TQueue<TArray<FVector3f>> CollisionVertices;
     TQueue<TArray<FTriIndices>> CollisionIndices;
     double FirstRenderTime;
+
+    // Auth-change subscription: rebuilds the scene proxy when the license tier
+    // flips so gated clip/section counts take effect immediately.
+    FDelegateHandle OnAuthChangedDel;
+    // Edge-dedup state for the clip/section quota warning: the enabled count last
+    // warned about, so we log once per change instead of every frame. -1 = never.
+    int32 LastWarnedClipCount = -1;
+    int32 LastWarnedSectionCount = -1;
 };

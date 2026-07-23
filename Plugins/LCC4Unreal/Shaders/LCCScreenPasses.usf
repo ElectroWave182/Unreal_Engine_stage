@@ -1,0 +1,22 @@
+// Copyright XGrids, Inc. All Rights Reserved.
+// Shader cache version tag. Do not remove.
+// SHADER_VERSION 2
+
+#include "/Engine/Public/Platform.ush"
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ColorSpace.ush"
+#include "/Engine/Private/TonemapCommon.ush"
+#include "/Engine/Private/GammaCorrectionCommon.ush"
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+Texture2D SeparateTranslucencyTexture;
+SamplerState SeparateTranslucencySampler;
+float2 SeparateTranslucencyScale;
+float2 SeparateTranslucencyViewMin;
+float2 SceneColorViewMin;
+float LCCPreExposure;
+uint bLCCWorkingColorSpaceEnabled;
+uint bApplyTonemapInverse;
+
+#include "/Engine/Generated/LCCScreenPasses_Main.ush"
