@@ -468,7 +468,7 @@
         "type": "function",
         "z": "19d44862905ad910",
         "name": "degresLiberteObtenir",
-        "func": "let listeLiaisons = msg. donnees. jointData;\nvar listeDegres = new Array ();\n\nlisteLiaisons. forEach (function (degreLiberte) {\n    listeDegres. push (degreLiberte. positionTargetDegree);\n});\n\n// La liaison \"wrist 2\" est inversée\nlisteDegres [4] *= -1;\n\n// Conversion en rotation Unreal Engine\nmsg. payload = {\n    decalages:\n    listeDegres. map (function (nb) {\n        return (180 - nb) % 360 - 180;\n    })\n};\n\nreturn msg;\n",
+        "func": "let listeLiaisons = msg. donnees. jointData;\nvar listeDegres = new Array ();\n\nlisteLiaisons. forEach (function (degreLiberte) {\n    listeDegres. push (degreLiberte. positionTargetDegree);\n});\n\n// La liaison \"wrist 2\" est inversée\nlisteDegres [4] *= -1;\n\nmsg. payload = {decalages: listeDegres};\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
