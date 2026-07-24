@@ -1,0 +1,2320 @@
+[
+    {
+        "id": "7bc941ef9b9f5be1",
+        "type": "tab",
+        "label": "Connexion",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "19d44862905ad910",
+        "type": "subflow",
+        "name": "placementsEcrireUR",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "bd0bb2e13c6f578b"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 900,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "fe25d3da198e7b7c",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "fd89d7dfc851fc61",
+        "type": "subflow",
+        "name": "niveauConnexionEcrire",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "e3e15a08a8dfcf75"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 340,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "4ee75977988ff664",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "724ee7dba2adee31",
+        "type": "subflow",
+        "name": "adresseNouvelle",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "8cd495979730d930"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1080,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "3dd01813e9fc5b5d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "ff714d58265036a6",
+        "type": "subflow",
+        "name": "adresseNouvelleEtAncienne",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 1240,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "f05ded8aaabcbabf",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 740,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "ba8cce9fd61f7496",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1b7de135bcc21037",
+        "type": "subflow",
+        "name": "adresseEcrire",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "17c7c507d8490208"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1000,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "df9df9028c79ec74",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "98e65c71f4f47d26",
+        "type": "subflow",
+        "name": "protocolesEntree",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 940,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "32cd1bf4ccf9ab27",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 820,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "74c30472a640fc47",
+                        "port": 0
+                    },
+                    {
+                        "id": "31e98b09fd84495f",
+                        "port": 0
+                    },
+                    {
+                        "id": "8e21fb0c4f41effa",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99",
+        "status": {
+            "x": 1240,
+            "y": 720,
+            "wires": [
+                {
+                    "id": "a69fbe0aeb7bb820",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "fe2dba6f46ba48fd",
+        "type": "subflow",
+        "name": "placementLire",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 1160,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "51a332f6e3a97b6a",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "aeea589e7f198a4c",
+        "type": "subflow",
+        "name": "robotNom",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "98cd8041eff29b75"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1020,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "3f571235dc985ab4",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "30cb8fea6816ddac",
+        "type": "subflow",
+        "name": "capteursEcrire",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "2d7674ead69a1ab7"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1fb67481477b8b1b",
+        "type": "subflow",
+        "name": "attributs",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "2d456df31383168e"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "ad5fd01fd379dc88",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "15181106bda4897a",
+        "type": "subflow",
+        "name": "robotRafraichissement",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "507ca7da4c3f1eba"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 420,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "f8e1ec61d4c131b0",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "680b9f61ad2a9397",
+        "type": "subflow",
+        "name": "envoyerUR",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "f099aad0fca9e788"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "a5722af5446be11e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "200368b693598609",
+        "type": "group",
+        "z": "7bc941ef9b9f5be1",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "7a64eb35d2cf346f",
+            "ea7a77249a848aac"
+        ],
+        "x": 514,
+        "y": 59,
+        "w": 192,
+        "h": 142
+    },
+    {
+        "id": "4ff2fccc733d9e85",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "core-mosquitto.local.hass.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e3dc61b2f8de639f",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-tcp-client2": "1.2.0",
+            "node-red-contrib-require": "0.1.1",
+            "node-red-contrib-ur-robot": "1.0.4"
+        }
+    },
+    {
+        "id": "2fc51764341f4133",
+        "type": "function",
+        "z": "19d44862905ad910",
+        "name": "degresLiberteObtenir",
+        "func": "let listeLiaisons = msg. donnees. jointData;\nvar listeDegres = new Array ();\n\nlisteLiaisons. forEach (function (degreLiberte) {\n    listeDegres. push (degreLiberte. positionTargetDegree);\n});\n\n// La liaison \"wrist 2\" est inversée\nlisteDegres [4] *= -1;\n\n// Conversion en rotation Unreal Engine\nmsg. payload = {\n    decalages:\n    listeDegres. map (function (nb) {\n        return (180 - nb) % 360 - 180;\n    })\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 300,
+        "wires": [
+            [
+                "de90e23fb341c4f6"
+            ]
+        ]
+    },
+    {
+        "id": "eb033663af98c37d",
+        "type": "comment",
+        "z": "19d44862905ad910",
+        "name": "Écrit les placements reçus dans .json pour pouvoir les appliquer au jumeau numérique ensuite",
+        "info": "",
+        "x": 380,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "de90e23fb341c4f6",
+        "type": "json",
+        "z": "19d44862905ad910",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 500,
+        "y": 300,
+        "wires": [
+            [
+                "fe25d3da198e7b7c"
+            ]
+        ]
+    },
+    {
+        "id": "fe25d3da198e7b7c",
+        "type": "file",
+        "z": "19d44862905ad910",
+        "name": "",
+        "filename": "placementReel.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 730,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd0bb2e13c6f578b",
+        "type": "change",
+        "z": "19d44862905ad910",
+        "name": "donnees = payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "donnees",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "e79b025db39d754b"
+            ]
+        ]
+    },
+    {
+        "id": "5f9c71b657a22b5e",
+        "type": "function",
+        "z": "19d44862905ad910",
+        "name": "vitesseObtenir",
+        "func": "msg. payload. enMouvement = msg. donnees. robotModeData. speedScaling == 1;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "437d5760a0921aad"
+            ]
+        ]
+    },
+    {
+        "id": "e79b025db39d754b",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "19d44862905ad910",
+        "name": "",
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "5f9c71b657a22b5e"
+            ]
+        ]
+    },
+    {
+        "id": "437d5760a0921aad",
+        "type": "json",
+        "z": "19d44862905ad910",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "5aad573ca670a9cb"
+            ]
+        ]
+    },
+    {
+        "id": "5aad573ca670a9cb",
+        "type": "file",
+        "z": "19d44862905ad910",
+        "name": "",
+        "filename": "attributs.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 850,
+        "y": 220,
+        "wires": [
+            [
+                "2fc51764341f4133"
+            ]
+        ]
+    },
+    {
+        "id": "4ee75977988ff664",
+        "type": "switch",
+        "z": "fd89d7dfc851fc61",
+        "name": "maj",
+        "property": "maj",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 210,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c904e80e34496088",
+        "type": "json",
+        "z": "fd89d7dfc851fc61",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 880,
+        "y": 80,
+        "wires": [
+            [
+                "3949e89832f309d4"
+            ]
+        ]
+    },
+    {
+        "id": "3949e89832f309d4",
+        "type": "file",
+        "z": "fd89d7dfc851fc61",
+        "name": "",
+        "filename": "statut.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1090,
+        "y": 80,
+        "wires": [
+            [
+                "4ee75977988ff664"
+            ]
+        ]
+    },
+    {
+        "id": "e93750f98bb0da49",
+        "type": "function",
+        "z": "fd89d7dfc851fc61",
+        "name": "statutMisAJour",
+        "func": "msg. protocole = msg. status. source. name;\nmsg. payload. niveaux [msg. protocole] = msg. niveau;\nlet protocolePrecedent = msg. payload. protocole;\n\nmsg. maj =\n    msg. protocole == protocolePrecedent ||\n    msg. niveau > msg. payload. niveaux [protocolePrecedent]\n;\n\nif (msg. maj)\n    msg. payload. protocole = msg. protocole;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 80,
+        "wires": [
+            [
+                "c904e80e34496088"
+            ]
+        ]
+    },
+    {
+        "id": "e3e15a08a8dfcf75",
+        "type": "file in",
+        "z": "fd89d7dfc851fc61",
+        "name": "",
+        "filename": "statut.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 230,
+        "y": 80,
+        "wires": [
+            [
+                "d7fa686a5d5b7be3"
+            ]
+        ]
+    },
+    {
+        "id": "d7fa686a5d5b7be3",
+        "type": "json",
+        "z": "fd89d7dfc851fc61",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 440,
+        "y": 80,
+        "wires": [
+            [
+                "e93750f98bb0da49"
+            ]
+        ]
+    },
+    {
+        "id": "3bc4244c3607b23c",
+        "type": "json",
+        "z": "724ee7dba2adee31",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 700,
+        "y": 140,
+        "wires": [
+            [
+                "3dd01813e9fc5b5d"
+            ]
+        ]
+    },
+    {
+        "id": "0df7a94bd07b627d",
+        "type": "file in",
+        "z": "724ee7dba2adee31",
+        "name": "",
+        "filename": "../sauvegarde/robots.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "3bc4244c3607b23c"
+            ]
+        ]
+    },
+    {
+        "id": "8cd495979730d930",
+        "type": "subflow:aeea589e7f198a4c",
+        "z": "724ee7dba2adee31",
+        "name": "",
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "0df7a94bd07b627d"
+            ]
+        ]
+    },
+    {
+        "id": "3dd01813e9fc5b5d",
+        "type": "function",
+        "z": "724ee7dba2adee31",
+        "name": "adresseObtenir",
+        "func": "msg. host = msg. payload [msg. robot]. metadonnees. Adresse;\nmsg. ip   = msg. host;\nmsg. port = 1789;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b6ce10e26489b5f9",
+        "type": "comment",
+        "z": "724ee7dba2adee31",
+        "name": "robots.json {metadonnees {Adresse}}",
+        "info": "",
+        "x": 210,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "af16e115adf366cf",
+        "type": "subflow:724ee7dba2adee31",
+        "z": "ff714d58265036a6",
+        "x": 390,
+        "y": 140,
+        "wires": [
+            [
+                "ba8cce9fd61f7496"
+            ]
+        ]
+    },
+    {
+        "id": "d738f9f9221f2062",
+        "type": "watch",
+        "z": "ff714d58265036a6",
+        "name": "",
+        "files": "robotConnecte.json",
+        "recursive": "",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "af16e115adf366cf"
+            ]
+        ]
+    },
+    {
+        "id": "ba8cce9fd61f7496",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "ff714d58265036a6",
+        "name": "",
+        "x": 600,
+        "y": 140,
+        "wires": [
+            [
+                "ad0befec92877240"
+            ]
+        ]
+    },
+    {
+        "id": "ad0befec92877240",
+        "type": "switch",
+        "z": "ff714d58265036a6",
+        "name": "host != payload. adresse",
+        "property": "host",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "payload.adresse",
+                "vt": "msg"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 830,
+        "y": 140,
+        "wires": [
+            [
+                "f05ded8aaabcbabf"
+            ]
+        ]
+    },
+    {
+        "id": "f05ded8aaabcbabf",
+        "type": "function",
+        "z": "ff714d58265036a6",
+        "name": "adresseObtenir",
+        "func": "msg. nouvelleAdresse = msg. host;\nmsg. host = msg. payload. adresse;\nmsg. ip   = msg. host;\nmsg. port = 1789;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5eeeb4cc6e5b3ef5",
+        "type": "comment",
+        "z": "ff714d58265036a6",
+        "name": "Renvoie la nouvelle adresse en haut, et l'ancienne en bas si elle est différente",
+        "info": "",
+        "x": 330,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "087d0609f15e4470",
+        "type": "function",
+        "z": "1b7de135bcc21037",
+        "name": "adresseDefinir",
+        "func": "msg. payload. adresse = msg. nouvelleAdresse;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 140,
+        "wires": [
+            [
+                "2cfdcab1e9338b75"
+            ]
+        ]
+    },
+    {
+        "id": "df9df9028c79ec74",
+        "type": "file",
+        "z": "1b7de135bcc21037",
+        "name": "",
+        "filename": "attributs.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 850,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2cfdcab1e9338b75",
+        "type": "json",
+        "z": "1b7de135bcc21037",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 640,
+        "y": 140,
+        "wires": [
+            [
+                "df9df9028c79ec74"
+            ]
+        ]
+    },
+    {
+        "id": "cdd5f3336788591f",
+        "type": "comment",
+        "z": "1b7de135bcc21037",
+        "name": "On met à jour l'adresse dans attributs.json {adresse}",
+        "info": "",
+        "x": 250,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "17c7c507d8490208",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "1b7de135bcc21037",
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "087d0609f15e4470"
+            ]
+        ]
+    },
+    {
+        "id": "74c30472a640fc47",
+        "type": "tcp-client",
+        "z": "98e65c71f4f47d26",
+        "action": "action",
+        "actionType": "msg",
+        "host": "host",
+        "hostType": "msg",
+        "port": "port",
+        "portType": "msg",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "write": "payload",
+        "writeType": "msg",
+        "maxRetries": "1",
+        "retryDelay": "0",
+        "indefiniteRetries": true,
+        "topic": "",
+        "name": "TCP",
+        "debug": "error",
+        "x": 690,
+        "y": 280,
+        "wires": [
+            [
+                "e77bc86e146a7175"
+            ]
+        ]
+    },
+    {
+        "id": "32cd1bf4ccf9ab27",
+        "type": "tcp-client",
+        "z": "98e65c71f4f47d26",
+        "action": "action",
+        "actionType": "msg",
+        "host": "host",
+        "hostType": "msg",
+        "port": "30001",
+        "portType": "str",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "write": "payload",
+        "writeType": "msg",
+        "maxRetries": "1",
+        "retryDelay": "0",
+        "indefiniteRetries": true,
+        "topic": "",
+        "name": "TCP - Universal Robots",
+        "debug": "error",
+        "x": 750,
+        "y": 220,
+        "wires": [
+            [
+                "e77bc86e146a7175"
+            ]
+        ]
+    },
+    {
+        "id": "e77bc86e146a7175",
+        "type": "tcp out",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "host": "",
+        "port": "",
+        "beserver": "reply",
+        "base64": false,
+        "end": false,
+        "tls": "",
+        "x": 970,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "31e98b09fd84495f",
+        "type": "udp in",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "iface": "",
+        "port": "1789",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 680,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8e21fb0c4f41effa",
+        "type": "http in",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "url": "/",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 690,
+        "y": 400,
+        "wires": [
+            [
+                "c5eb7f4a35d59ff3"
+            ]
+        ]
+    },
+    {
+        "id": "c5eb7f4a35d59ff3",
+        "type": "http response",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 850,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "8293ba7b155cf7f9",
+        "type": "subflow:30cb8fea6816ddac",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "x": 1080,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "0a876cb84f8cce49",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "donnees = \"\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "donnees",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 870,
+        "y": 140,
+        "wires": [
+            [
+                "8293ba7b155cf7f9"
+            ]
+        ]
+    },
+    {
+        "id": "7e80998e54b9f203",
+        "type": "subflow:1b7de135bcc21037",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "x": 660,
+        "y": 140,
+        "wires": [
+            [
+                "0a876cb84f8cce49"
+            ]
+        ]
+    },
+    {
+        "id": "bbfd9428f956a630",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "action = \"close\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "action",
+                "pt": "msg",
+                "to": "close",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 140,
+        "wires": [
+            [
+                "7e80998e54b9f203"
+            ]
+        ]
+    },
+    {
+        "id": "e2e1c64f0e9c0a20",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "action = \"connect\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "action",
+                "pt": "msg",
+                "to": "connect",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "74c30472a640fc47",
+                "32cd1bf4ccf9ab27"
+            ]
+        ]
+    },
+    {
+        "id": "1365a22094c49283",
+        "type": "comment",
+        "z": "98e65c71f4f47d26",
+        "name": "On réinitialise les informations, on ferme la connexion précédente, et on en ouvre une nouvelle",
+        "info": "",
+        "x": 380,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e9cb5e53ea4c2f90",
+        "type": "mqtt in",
+        "z": "98e65c71f4f47d26",
+        "d": true,
+        "name": "",
+        "topic": "",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "4ff2fccc733d9e85",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 690,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "218ab2a6aabb2e39",
+        "type": "mqtt out",
+        "z": "98e65c71f4f47d26",
+        "d": true,
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4ff2fccc733d9e85",
+        "x": 850,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "9115fd22d19f6a51",
+        "type": "subflow:ff714d58265036a6",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "bbfd9428f956a630"
+            ],
+            [
+                "e2e1c64f0e9c0a20"
+            ]
+        ]
+    },
+    {
+        "id": "28c916fd50846a59",
+        "type": "status",
+        "z": "98e65c71f4f47d26",
+        "name": "",
+        "scope": null,
+        "x": 120,
+        "y": 620,
+        "wires": [
+            [
+                "4584e7598170caa5"
+            ]
+        ]
+    },
+    {
+        "id": "e15fdb85c1defb0f",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "\"blue\" -> 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "niveau",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 600,
+        "wires": [
+            [
+                "ac67fe6aeee9deb0"
+            ]
+        ]
+    },
+    {
+        "id": "4584e7598170caa5",
+        "type": "switch",
+        "z": "98e65c71f4f47d26",
+        "name": "status. fill",
+        "property": "status.fill",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "blue",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "red",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "yellow",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "green",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 4,
+        "x": 300,
+        "y": 620,
+        "wires": [
+            [
+                "e15fdb85c1defb0f"
+            ],
+            [
+                "c7d542f4b8fb9950"
+            ],
+            [
+                "9a19bf239925f4fe"
+            ],
+            [
+                "234780657f8a5028"
+            ]
+        ]
+    },
+    {
+        "id": "c7d542f4b8fb9950",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "\"red\" -> 2",
+        "rules": [
+            {
+                "t": "set",
+                "p": "niveau",
+                "pt": "msg",
+                "to": "2",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 640,
+        "wires": [
+            [
+                "ac67fe6aeee9deb0"
+            ]
+        ]
+    },
+    {
+        "id": "9a19bf239925f4fe",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "\"yellow\" -> 3",
+        "rules": [
+            {
+                "t": "set",
+                "p": "niveau",
+                "pt": "msg",
+                "to": "3",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 680,
+        "wires": [
+            [
+                "ac67fe6aeee9deb0"
+            ]
+        ]
+    },
+    {
+        "id": "234780657f8a5028",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "\"green\" -> 4",
+        "rules": [
+            {
+                "t": "set",
+                "p": "niveau",
+                "pt": "msg",
+                "to": "4",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 720,
+        "wires": [
+            [
+                "ac67fe6aeee9deb0"
+            ]
+        ]
+    },
+    {
+        "id": "064160e7a7a3f0b5",
+        "type": "comment",
+        "z": "98e65c71f4f47d26",
+        "name": "Statut de la meilleure connexion",
+        "info": "",
+        "x": 190,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "a69fbe0aeb7bb820",
+        "type": "change",
+        "z": "98e65c71f4f47d26",
+        "name": "retirer payload",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1080,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac67fe6aeee9deb0",
+        "type": "subflow:fd89d7dfc851fc61",
+        "z": "98e65c71f4f47d26",
+        "x": 830,
+        "y": 720,
+        "wires": [
+            [
+                "a69fbe0aeb7bb820"
+            ]
+        ]
+    },
+    {
+        "id": "76c081e002cbdf5a",
+        "type": "comment",
+        "z": "fe2dba6f46ba48fd",
+        "name": "On fait une liste de tous les décalages des degrés de liberté de l'assemblage connecté",
+        "info": "",
+        "x": 360,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "04c9e7ea19249bdb",
+        "type": "watch",
+        "z": "fe2dba6f46ba48fd",
+        "name": "",
+        "files": "placementJumeau.json",
+        "recursive": "",
+        "x": 160,
+        "y": 140,
+        "wires": [
+            [
+                "cfe74792436d1768"
+            ]
+        ]
+    },
+    {
+        "id": "78f0db167cf0ef27",
+        "type": "file in",
+        "z": "fe2dba6f46ba48fd",
+        "name": "",
+        "filename": "placementJumeau.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "bd162098a4cdfc20"
+            ]
+        ]
+    },
+    {
+        "id": "bd162098a4cdfc20",
+        "type": "json",
+        "z": "fe2dba6f46ba48fd",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 680,
+        "y": 220,
+        "wires": [
+            [
+                "51a332f6e3a97b6a"
+            ]
+        ]
+    },
+    {
+        "id": "51a332f6e3a97b6a",
+        "type": "change",
+        "z": "fe2dba6f46ba48fd",
+        "name": "payload = payload. decalages",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.decalages",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cfe74792436d1768",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "fe2dba6f46ba48fd",
+        "name": "",
+        "x": 380,
+        "y": 140,
+        "wires": [
+            [
+                "d06573d7cddcf344"
+            ]
+        ]
+    },
+    {
+        "id": "d06573d7cddcf344",
+        "type": "function",
+        "z": "fe2dba6f46ba48fd",
+        "name": "adresseObtenir",
+        "func": "msg. host = msg. payload. adresse;\nmsg. ip   = msg. host;\nmsg. port = 1789;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 140,
+        "wires": [
+            [
+                "78f0db167cf0ef27"
+            ]
+        ]
+    },
+    {
+        "id": "d91aea2462213354",
+        "type": "function",
+        "z": "aeea589e7f198a4c",
+        "name": "nomObtenir",
+        "func": "msg. robot = msg. payload. nom;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 140,
+        "wires": [
+            [
+                "3f571235dc985ab4"
+            ]
+        ]
+    },
+    {
+        "id": "3f571235dc985ab4",
+        "type": "switch",
+        "z": "aeea589e7f198a4c",
+        "name": "robot != \"\"",
+        "property": "robot",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 880,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bc7b92322284eb01",
+        "type": "comment",
+        "z": "aeea589e7f198a4c",
+        "name": "robotConnecte.json {nom}",
+        "info": "",
+        "x": 170,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "98cd8041eff29b75",
+        "type": "file in",
+        "z": "aeea589e7f198a4c",
+        "name": "",
+        "filename": "robotConnecte.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "8b18bab2a632b3b5"
+            ]
+        ]
+    },
+    {
+        "id": "8b18bab2a632b3b5",
+        "type": "json",
+        "z": "aeea589e7f198a4c",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 480,
+        "y": 140,
+        "wires": [
+            [
+                "d91aea2462213354"
+            ]
+        ]
+    },
+    {
+        "id": "5aadc2cac59728a6",
+        "type": "file in",
+        "z": "30cb8fea6816ddac",
+        "name": "",
+        "filename": "informations.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 430,
+        "y": 140,
+        "wires": [
+            [
+                "0a8e6df721f95a68"
+            ]
+        ]
+    },
+    {
+        "id": "0a8e6df721f95a68",
+        "type": "json",
+        "z": "30cb8fea6816ddac",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 660,
+        "y": 140,
+        "wires": [
+            [
+                "b95f53334efa1c0a"
+            ]
+        ]
+    },
+    {
+        "id": "b95f53334efa1c0a",
+        "type": "function",
+        "z": "30cb8fea6816ddac",
+        "name": "ecrireInformationsRobot",
+        "func": "msg. payload [msg. robot] = msg. donnees;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "214e99cf78b387e0"
+            ]
+        ]
+    },
+    {
+        "id": "14fdcfeb0bf845f2",
+        "type": "file",
+        "z": "30cb8fea6816ddac",
+        "name": "",
+        "filename": "informations.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 470,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "214e99cf78b387e0",
+        "type": "json",
+        "z": "30cb8fea6816ddac",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": true,
+        "x": 240,
+        "y": 300,
+        "wires": [
+            [
+                "14fdcfeb0bf845f2"
+            ]
+        ]
+    },
+    {
+        "id": "2d7674ead69a1ab7",
+        "type": "subflow:aeea589e7f198a4c",
+        "z": "30cb8fea6816ddac",
+        "name": "",
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "5aadc2cac59728a6"
+            ]
+        ]
+    },
+    {
+        "id": "1cd5c015bca2ec72",
+        "type": "comment",
+        "z": "30cb8fea6816ddac",
+        "name": "On remplace informations.json au nom du robot, par les données reçues",
+        "info": "",
+        "x": 310,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2d456df31383168e",
+        "type": "file in",
+        "z": "1fb67481477b8b1b",
+        "name": "",
+        "filename": "attributs.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 230,
+        "y": 140,
+        "wires": [
+            [
+                "ad5fd01fd379dc88"
+            ]
+        ]
+    },
+    {
+        "id": "ad5fd01fd379dc88",
+        "type": "json",
+        "z": "1fb67481477b8b1b",
+        "name": "chaineVersJson",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 440,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0ab0df5d4067a1a7",
+        "type": "comment",
+        "z": "1fb67481477b8b1b",
+        "name": "attributs.json",
+        "info": "",
+        "x": 130,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "7d9e00e6efb439f4",
+        "type": "function",
+        "z": "15181106bda4897a",
+        "name": "rafraichissementObtenir",
+        "func": "msg. rate = msg. payload. rafraichissement * 1000;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "1c525056f96db48b"
+            ]
+        ]
+    },
+    {
+        "id": "3039b2d3d522a24b",
+        "type": "comment",
+        "z": "15181106bda4897a",
+        "name": "attributs.json {rafraichissement}",
+        "info": "",
+        "x": 190,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "ced8c8c9383418f4",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "15181106bda4897a",
+        "name": "",
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "7d9e00e6efb439f4"
+            ]
+        ]
+    },
+    {
+        "id": "1c525056f96db48b",
+        "type": "delay",
+        "z": "15181106bda4897a",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "allowrate": true,
+        "outputs": 1,
+        "x": 690,
+        "y": 220,
+        "wires": [
+            [
+                "f8e1ec61d4c131b0"
+            ]
+        ]
+    },
+    {
+        "id": "507ca7da4c3f1eba",
+        "type": "change",
+        "z": "15181106bda4897a",
+        "name": "donnees = payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "donnees",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "ced8c8c9383418f4"
+            ]
+        ]
+    },
+    {
+        "id": "f8e1ec61d4c131b0",
+        "type": "change",
+        "z": "15181106bda4897a",
+        "name": "payload = donnees",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "donnees",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "491ee432a7701f4a",
+        "type": "debug",
+        "z": "680b9f61ad2a9397",
+        "name": "retour",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "retour",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "62e688f277e8261a",
+        "type": "function",
+        "z": "680b9f61ad2a9397",
+        "name": "tcpSocket",
+        "func": "var net = msg. module;\nvar client = new net. Socket ();\nvar rotations = msg. payload. map (function (nb) {\n    return ((180 - nb) % 360 - 180) * Math. PI / 180;\n});\n\n// La liaison \"wrist 2\" est inversée\nrotations [4] *= -1;\n\nmsg. commande =\n    \"movej([\"\n    + rotations\n    + \"], a=1.4, v=1.05, t=0, r=0)\"\n    + '\\n'\n;\n\nclient. on (\"error\", function (erreur) {\n    client. destroy ();\n    client = null;\n    msg. retour = \"Erreur : \" + erreur. message;\n});\n\nclient. on (\"data\", function (donnees) {\n    msg. retour = \"Données : \" + donnees;\n});\n\nclient. connect (30*1000 + 3, msg. host, function () {\n    msg. retour = \"Connecté\";\n});\n\nclient. write (msg. commande);\n/*\nclient.destroy();\nclient = null;\n*/\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "a5722af5446be11e",
+                "ebe4625e19877efd"
+            ]
+        ]
+    },
+    {
+        "id": "f099aad0fca9e788",
+        "type": "require",
+        "z": "680b9f61ad2a9397",
+        "name": "",
+        "module": "net",
+        "field": "module",
+        "fieldType": "msg",
+        "x": 210,
+        "y": 200,
+        "wires": [
+            [
+                "62e688f277e8261a"
+            ]
+        ]
+    },
+    {
+        "id": "a5722af5446be11e",
+        "type": "switch",
+        "z": "680b9f61ad2a9397",
+        "name": "retour == \"Erreur\"...",
+        "property": "retour",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "Erreur*",
+                "vt": "str",
+                "case": true
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 590,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebe4625e19877efd",
+        "type": "switch",
+        "z": "680b9f61ad2a9397",
+        "name": "retour != null",
+        "property": "retour",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 570,
+        "y": 140,
+        "wires": [
+            [
+                "491ee432a7701f4a"
+            ]
+        ]
+    },
+    {
+        "id": "51dcd54540b37cd8",
+        "type": "comment",
+        "z": "680b9f61ad2a9397",
+        "name": "L'envoi au port 30 003 nécessite le module net de JavaScript",
+        "info": "",
+        "x": 280,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "810d2973eab8bc52",
+        "type": "comment",
+        "z": "7bc941ef9b9f5be1",
+        "name": "Entrées",
+        "info": "",
+        "x": 110,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "406b31ef646c6d16",
+        "type": "udp out",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "addr": "",
+        "iface": "",
+        "port": "",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 310,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "1451d38d509b872c",
+        "type": "comment",
+        "z": "7bc941ef9b9f5be1",
+        "name": "Sorties",
+        "info": "",
+        "x": 110,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "7a64eb35d2cf346f",
+        "type": "rtde-interface",
+        "z": "7bc941ef9b9f5be1",
+        "g": "200368b693598609",
+        "name": "",
+        "x": 610,
+        "y": 160,
+        "wires": [
+            [
+                "eca7a95ef021f06f"
+            ]
+        ]
+    },
+    {
+        "id": "ae7a7a629e6bfd6c",
+        "type": "http request",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "body",
+        "url": "https://www.google.com/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6a2fee17c2f1541",
+        "type": "subflow:680b9f61ad2a9397",
+        "z": "7bc941ef9b9f5be1",
+        "x": 330,
+        "y": 440,
+        "wires": [
+            [
+                "48f4cd98002aa7da"
+            ]
+        ]
+    },
+    {
+        "id": "14e556368cfeb2b3",
+        "type": "subflow:15181106bda4897a",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "x": 380,
+        "y": 160,
+        "wires": [
+            [
+                "7a64eb35d2cf346f"
+            ]
+        ]
+    },
+    {
+        "id": "3144cb0cdfdc9cb7",
+        "type": "subflow:30cb8fea6816ddac",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "x": 1080,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f378f3dcf796cd40",
+        "type": "subflow:fe2dba6f46ba48fd",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "f6a2fee17c2f1541",
+                "ae7a7a629e6bfd6c"
+            ]
+        ]
+    },
+    {
+        "id": "ea7a77249a848aac",
+        "type": "catch",
+        "z": "7bc941ef9b9f5be1",
+        "g": "200368b693598609",
+        "name": "",
+        "scope": "group",
+        "uncaught": true,
+        "x": 610,
+        "y": 100,
+        "wires": [
+            [
+                "922e3bedfefa3a2d"
+            ]
+        ]
+    },
+    {
+        "id": "a31cd5478821928d",
+        "type": "debug",
+        "z": "7bc941ef9b9f5be1",
+        "name": "erreur",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "error",
+        "targetType": "msg",
+        "statusVal": "error",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "922e3bedfefa3a2d",
+        "type": "switch",
+        "z": "7bc941ef9b9f5be1",
+        "name": "!= \"ReferenceError: err is not defined\"",
+        "property": "error.message",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "ReferenceError: err is not defined",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 890,
+        "y": 100,
+        "wires": [
+            [
+                "a31cd5478821928d"
+            ]
+        ]
+    },
+    {
+        "id": "48f4cd98002aa7da",
+        "type": "tcp request",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "server": "",
+        "port": "",
+        "out": "immed",
+        "ret": "string",
+        "splitc": " ",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 510,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dab0c950b00f6980",
+        "type": "subflow:98e65c71f4f47d26",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "x": 140,
+        "y": 200,
+        "wires": [
+            [
+                "14e556368cfeb2b3"
+            ],
+            [
+                "14a18331dde63964"
+            ]
+        ]
+    },
+    {
+        "id": "eca7a95ef021f06f",
+        "type": "subflow:19d44862905ad910",
+        "z": "7bc941ef9b9f5be1",
+        "x": 840,
+        "y": 160,
+        "wires": [
+            [
+                "3144cb0cdfdc9cb7"
+            ]
+        ]
+    },
+    {
+        "id": "14a18331dde63964",
+        "type": "subflow:15181106bda4897a",
+        "z": "7bc941ef9b9f5be1",
+        "name": "",
+        "x": 380,
+        "y": 240,
+        "wires": [
+            [
+                "3144cb0cdfdc9cb7"
+            ]
+        ]
+    }
+]

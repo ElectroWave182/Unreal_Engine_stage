@@ -1,5 +1,13 @@
 [
     {
+        "id": "7bc941ef9b9f5be1",
+        "type": "tab",
+        "label": "Connexion",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "19d44862905ad910",
         "type": "subflow",
         "name": "placementsEcrireUR",
@@ -18,8 +26,8 @@
         ],
         "out": [
             {
-                "x": 1140,
-                "y": 140,
+                "x": 900,
+                "y": 300,
                 "wires": [
                     {
                         "id": "fe25d3da198e7b7c",
@@ -31,97 +39,6 @@
         "env": [],
         "meta": {},
         "color": "#DDAA99"
-    },
-    {
-        "id": "2fc51764341f4133",
-        "type": "function",
-        "z": "19d44862905ad910",
-        "name": "degresLiberteObtenir",
-        "func": "let listeLiaisons = msg. donnees. jointData;\nvar listeDegres = new Array ();\n\nlisteLiaisons. forEach (function (degreLiberte) {\n    listeDegres. push (degreLiberte. positionTargetDegree);\n});\n\n// La liaison \"wrist 2\" est inversée\nlisteDegres [4] *= -1;\n\n// Conversion en rotation Unreal Engine\nmsg. payload = {\n    decalages:\n    listeDegres. map (function (nb) {\n        return (180 - nb) % 360 - 180;\n    })\n};\n\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 500,
-        "y": 140,
-        "wires": [
-            [
-                "de90e23fb341c4f6"
-            ]
-        ]
-    },
-    {
-        "id": "eb033663af98c37d",
-        "type": "comment",
-        "z": "19d44862905ad910",
-        "name": "Écrit les placements reçus dans .json pour pouvoir les appliquer au jumeau numérique ensuite",
-        "info": "",
-        "x": 380,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "de90e23fb341c4f6",
-        "type": "json",
-        "z": "19d44862905ad910",
-        "name": "jsonVersChaine",
-        "property": "payload",
-        "action": "str",
-        "pretty": false,
-        "x": 740,
-        "y": 140,
-        "wires": [
-            [
-                "fe25d3da198e7b7c"
-            ]
-        ]
-    },
-    {
-        "id": "fe25d3da198e7b7c",
-        "type": "file",
-        "z": "19d44862905ad910",
-        "name": "",
-        "filename": "placementReel.json",
-        "filenameType": "str",
-        "appendNewline": false,
-        "createDir": false,
-        "overwriteFile": "true",
-        "encoding": "none",
-        "x": 970,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "bd0bb2e13c6f578b",
-        "type": "change",
-        "z": "19d44862905ad910",
-        "name": "donnees = payload",
-        "rules": [
-            {
-                "t": "set",
-                "p": "donnees",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg",
-                "dc": true
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 250,
-        "y": 140,
-        "wires": [
-            [
-                "2fc51764341f4133"
-            ]
-        ]
     },
     {
         "id": "fd89d7dfc851fc61",
@@ -155,6 +72,555 @@
         "env": [],
         "meta": {},
         "color": "#DDAA99"
+    },
+    {
+        "id": "724ee7dba2adee31",
+        "type": "subflow",
+        "name": "adresseNouvelle",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "8cd495979730d930"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1080,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "3dd01813e9fc5b5d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "ff714d58265036a6",
+        "type": "subflow",
+        "name": "adresseNouvelleEtAncienne",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 1240,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "f05ded8aaabcbabf",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 740,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "ba8cce9fd61f7496",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1b7de135bcc21037",
+        "type": "subflow",
+        "name": "adresseEcrire",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "17c7c507d8490208"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1000,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "df9df9028c79ec74",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "98e65c71f4f47d26",
+        "type": "subflow",
+        "name": "protocolesEntree",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 940,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "32cd1bf4ccf9ab27",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 820,
+                "y": 340,
+                "wires": [
+                    {
+                        "id": "74c30472a640fc47",
+                        "port": 0
+                    },
+                    {
+                        "id": "31e98b09fd84495f",
+                        "port": 0
+                    },
+                    {
+                        "id": "8e21fb0c4f41effa",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99",
+        "status": {
+            "x": 1240,
+            "y": 720,
+            "wires": [
+                {
+                    "id": "a69fbe0aeb7bb820",
+                    "port": 0
+                }
+            ]
+        }
+    },
+    {
+        "id": "fe2dba6f46ba48fd",
+        "type": "subflow",
+        "name": "placementLire",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [
+            {
+                "x": 1160,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "51a332f6e3a97b6a",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "aeea589e7f198a4c",
+        "type": "subflow",
+        "name": "robotNom",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "98cd8041eff29b75"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1020,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "3f571235dc985ab4",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "30cb8fea6816ddac",
+        "type": "subflow",
+        "name": "capteursEcrire",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "2d7674ead69a1ab7"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "1fb67481477b8b1b",
+        "type": "subflow",
+        "name": "attributs",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "2d456df31383168e"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "ad5fd01fd379dc88",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "15181106bda4897a",
+        "type": "subflow",
+        "name": "robotRafraichissement",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "507ca7da4c3f1eba"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 420,
+                "y": 300,
+                "wires": [
+                    {
+                        "id": "f8e1ec61d4c131b0",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "680b9f61ad2a9397",
+        "type": "subflow",
+        "name": "envoyerUR",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 80,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "f099aad0fca9e788"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "a5722af5446be11e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "200368b693598609",
+        "type": "group",
+        "z": "7bc941ef9b9f5be1",
+        "style": {
+            "stroke": "#999999",
+            "stroke-opacity": "1",
+            "fill": "none",
+            "fill-opacity": "1",
+            "label": true,
+            "label-position": "nw",
+            "color": "#a4a4a4"
+        },
+        "nodes": [
+            "7a64eb35d2cf346f",
+            "ea7a77249a848aac"
+        ],
+        "x": 514,
+        "y": 59,
+        "w": 192,
+        "h": 142
+    },
+    {
+        "id": "4ff2fccc733d9e85",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "core-mosquitto.local.hass.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e3dc61b2f8de639f",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-tcp-client2": "1.2.0",
+            "node-red-contrib-require": "0.1.1",
+            "node-red-contrib-ur-robot": "1.0.4"
+        }
+    },
+    {
+        "id": "2fc51764341f4133",
+        "type": "function",
+        "z": "19d44862905ad910",
+        "name": "degresLiberteObtenir",
+        "func": "let listeLiaisons = msg. donnees. jointData;\nvar listeDegres = new Array ();\n\nlisteLiaisons. forEach (function (degreLiberte) {\n    listeDegres. push (degreLiberte. positionTargetDegree);\n});\n\n// La liaison \"wrist 2\" est inversée\nlisteDegres [4] *= -1;\n\n// Conversion en rotation Unreal Engine\nmsg. payload = {\n    decalages:\n    listeDegres. map (function (nb) {\n        return (180 - nb) % 360 - 180;\n    })\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 300,
+        "wires": [
+            [
+                "de90e23fb341c4f6"
+            ]
+        ]
+    },
+    {
+        "id": "eb033663af98c37d",
+        "type": "comment",
+        "z": "19d44862905ad910",
+        "name": "Écrit les placements reçus dans .json pour pouvoir les appliquer au jumeau numérique ensuite",
+        "info": "",
+        "x": 380,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "de90e23fb341c4f6",
+        "type": "json",
+        "z": "19d44862905ad910",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 500,
+        "y": 300,
+        "wires": [
+            [
+                "fe25d3da198e7b7c"
+            ]
+        ]
+    },
+    {
+        "id": "fe25d3da198e7b7c",
+        "type": "file",
+        "z": "19d44862905ad910",
+        "name": "",
+        "filename": "placementReel.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 730,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd0bb2e13c6f578b",
+        "type": "change",
+        "z": "19d44862905ad910",
+        "name": "donnees = payload",
+        "rules": [
+            {
+                "t": "set",
+                "p": "donnees",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "e79b025db39d754b"
+            ]
+        ]
+    },
+    {
+        "id": "5f9c71b657a22b5e",
+        "type": "function",
+        "z": "19d44862905ad910",
+        "name": "vitesseObtenir",
+        "func": "msg. payload. enMouvement = msg. donnees. robotModeData. speedScaling == 1;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 220,
+        "wires": [
+            [
+                "437d5760a0921aad"
+            ]
+        ]
+    },
+    {
+        "id": "e79b025db39d754b",
+        "type": "subflow:1fb67481477b8b1b",
+        "z": "19d44862905ad910",
+        "name": "",
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "5f9c71b657a22b5e"
+            ]
+        ]
+    },
+    {
+        "id": "437d5760a0921aad",
+        "type": "json",
+        "z": "19d44862905ad910",
+        "name": "jsonVersChaine",
+        "property": "payload",
+        "action": "str",
+        "pretty": false,
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "5aad573ca670a9cb"
+            ]
+        ]
+    },
+    {
+        "id": "5aad573ca670a9cb",
+        "type": "file",
+        "z": "19d44862905ad910",
+        "name": "",
+        "filename": "attributs.json",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 850,
+        "y": 220,
+        "wires": [
+            [
+                "2fc51764341f4133"
+            ]
+        ]
     },
     {
         "id": "4ee75977988ff664",
@@ -269,39 +735,6 @@
         ]
     },
     {
-        "id": "724ee7dba2adee31",
-        "type": "subflow",
-        "name": "adresseNouvelle",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "8cd495979730d930"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1080,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "3dd01813e9fc5b5d",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "3bc4244c3607b23c",
         "type": "json",
         "z": "724ee7dba2adee31",
@@ -377,39 +810,6 @@
         "x": 210,
         "y": 80,
         "wires": []
-    },
-    {
-        "id": "ff714d58265036a6",
-        "type": "subflow",
-        "name": "adresseNouvelleEtAncienne",
-        "info": "",
-        "category": "",
-        "in": [],
-        "out": [
-            {
-                "x": 1240,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "f05ded8aaabcbabf",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 740,
-                "y": 80,
-                "wires": [
-                    {
-                        "id": "ba8cce9fd61f7496",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
     },
     {
         "id": "af16e115adf366cf",
@@ -505,39 +905,6 @@
         "wires": []
     },
     {
-        "id": "1b7de135bcc21037",
-        "type": "subflow",
-        "name": "adresseEcrire",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "17c7c507d8490208"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1000,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "df9df9028c79ec74",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "087d0609f15e4470",
         "type": "function",
         "z": "1b7de135bcc21037",
@@ -611,57 +978,6 @@
                 "087d0609f15e4470"
             ]
         ]
-    },
-    {
-        "id": "98e65c71f4f47d26",
-        "type": "subflow",
-        "name": "protocolesEntree",
-        "info": "",
-        "category": "",
-        "in": [],
-        "out": [
-            {
-                "x": 940,
-                "y": 220,
-                "wires": [
-                    {
-                        "id": "32cd1bf4ccf9ab27",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 820,
-                "y": 340,
-                "wires": [
-                    {
-                        "id": "74c30472a640fc47",
-                        "port": 0
-                    },
-                    {
-                        "id": "31e98b09fd84495f",
-                        "port": 0
-                    },
-                    {
-                        "id": "8e21fb0c4f41effa",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99",
-        "status": {
-            "x": 1240,
-            "y": 720,
-            "wires": [
-                {
-                    "id": "a69fbe0aeb7bb820",
-                    "port": 0
-                }
-            ]
-        }
     },
     {
         "id": "74c30472a640fc47",
@@ -1168,60 +1484,6 @@
         ]
     },
     {
-        "id": "4ff2fccc733d9e85",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "core-mosquitto.local.hass.io",
-        "port": 1883,
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": 4,
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "fe2dba6f46ba48fd",
-        "type": "subflow",
-        "name": "placementLire",
-        "info": "",
-        "category": "",
-        "in": [],
-        "out": [
-            {
-                "x": 1160,
-                "y": 220,
-                "wires": [
-                    {
-                        "id": "51a332f6e3a97b6a",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "76c081e002cbdf5a",
         "type": "comment",
         "z": "fe2dba6f46ba48fd",
@@ -1342,39 +1604,6 @@
         ]
     },
     {
-        "id": "aeea589e7f198a4c",
-        "type": "subflow",
-        "name": "robotNom",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "98cd8041eff29b75"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 1020,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "3f571235dc985ab4",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "d91aea2462213354",
         "type": "function",
         "z": "aeea589e7f198a4c",
@@ -1460,28 +1689,6 @@
                 "d91aea2462213354"
             ]
         ]
-    },
-    {
-        "id": "30cb8fea6816ddac",
-        "type": "subflow",
-        "name": "capteursEcrire",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "2d7674ead69a1ab7"
-                    }
-                ]
-            }
-        ],
-        "out": [],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
     },
     {
         "id": "5aadc2cac59728a6",
@@ -1596,39 +1803,6 @@
         "wires": []
     },
     {
-        "id": "1fb67481477b8b1b",
-        "type": "subflow",
-        "name": "attributs",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "2d456df31383168e"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 600,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "ad5fd01fd379dc88",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "2d456df31383168e",
         "type": "file in",
         "z": "1fb67481477b8b1b",
@@ -1671,39 +1845,6 @@
         "x": 130,
         "y": 80,
         "wires": []
-    },
-    {
-        "id": "15181106bda4897a",
-        "type": "subflow",
-        "name": "robotRafraichissement",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "507ca7da4c3f1eba"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 420,
-                "y": 300,
-                "wires": [
-                    {
-                        "id": "f8e1ec61d4c131b0",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
     },
     {
         "id": "7d9e00e6efb439f4",
@@ -1828,39 +1969,6 @@
         ]
     },
     {
-        "id": "680b9f61ad2a9397",
-        "type": "subflow",
-        "name": "envoyerUR",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 80,
-                "y": 200,
-                "wires": [
-                    {
-                        "id": "f099aad0fca9e788"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 760,
-                "y": 200,
-                "wires": [
-                    {
-                        "id": "a5722af5446be11e",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
         "id": "491ee432a7701f4a",
         "type": "debug",
         "z": "680b9f61ad2a9397",
@@ -1970,36 +2078,6 @@
         "x": 280,
         "y": 80,
         "wires": []
-    },
-    {
-        "id": "7bc941ef9b9f5be1",
-        "type": "tab",
-        "label": "Connexion",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "200368b693598609",
-        "type": "group",
-        "z": "7bc941ef9b9f5be1",
-        "style": {
-            "stroke": "#999999",
-            "stroke-opacity": "1",
-            "fill": "none",
-            "fill-opacity": "1",
-            "label": true,
-            "label-position": "nw",
-            "color": "#a4a4a4"
-        },
-        "nodes": [
-            "7a64eb35d2cf346f",
-            "ea7a77249a848aac"
-        ],
-        "x": 514,
-        "y": 59,
-        "w": 192,
-        "h": 142
     },
     {
         "id": "810d2973eab8bc52",
@@ -2238,15 +2316,5 @@
                 "3144cb0cdfdc9cb7"
             ]
         ]
-    },
-    {
-        "id": "e3dc61b2f8de639f",
-        "type": "global-config",
-        "env": [],
-        "modules": {
-            "node-red-contrib-tcp-client2": "1.2.0",
-            "node-red-contrib-require": "0.1.1",
-            "node-red-contrib-ur-robot": "1.0.4"
-        }
     }
 ]
