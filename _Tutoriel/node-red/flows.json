@@ -8,14 +8,6 @@
         "env": []
     },
     {
-        "id": "9da9de4d95375b09",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "98e65c71f4f47d26",
         "type": "subflow",
         "name": "protocolesEntree",
@@ -24,7 +16,7 @@
         "in": [],
         "out": [
             {
-                "x": 900,
+                "x": 940,
                 "y": 220,
                 "wires": [
                     {
@@ -34,7 +26,7 @@
                 ]
             },
             {
-                "x": 820,
+                "x": 860,
                 "y": 400,
                 "wires": [
                     {
@@ -50,7 +42,7 @@
                         "port": 0
                     },
                     {
-                        "id": "917d44b98db5dbc3",
+                        "id": "d9cb404a64ff109f",
                         "port": 0
                     }
                 ]
@@ -82,13 +74,13 @@
                 "y": 260,
                 "wires": [
                     {
-                        "id": "e631058b031728ce"
-                    },
-                    {
                         "id": "f6a2fee17c2f1541"
                     },
                     {
                         "id": "ae7a7a629e6bfd6c"
+                    },
+                    {
+                        "id": "d013b614d25d1e05"
                     }
                 ]
             }
@@ -173,8 +165,8 @@
         "in": [],
         "out": [
             {
-                "x": 1240,
-                "y": 140,
+                "x": 760,
+                "y": 220,
                 "wires": [
                     {
                         "id": "f05ded8aaabcbabf",
@@ -183,11 +175,11 @@
                 ]
             },
             {
-                "x": 740,
-                "y": 80,
+                "x": 760,
+                "y": 140,
                 "wires": [
                     {
-                        "id": "ba8cce9fd61f7496",
+                        "id": "5f04c8adb773f600",
                         "port": 0
                     }
                 ]
@@ -524,7 +516,7 @@
         "topic": "",
         "name": "TCP",
         "debug": "error",
-        "x": 650,
+        "x": 690,
         "y": 280,
         "wires": [
             [
@@ -553,7 +545,7 @@
         "topic": "",
         "name": "TCP - Universal Robots",
         "debug": "error",
-        "x": 710,
+        "x": 750,
         "y": 220,
         "wires": [
             [
@@ -572,7 +564,7 @@
         "base64": false,
         "end": false,
         "tls": "",
-        "x": 930,
+        "x": 970,
         "y": 280,
         "wires": []
     },
@@ -587,7 +579,7 @@
         "multicast": "false",
         "group": "",
         "datatype": "utf8",
-        "x": 640,
+        "x": 680,
         "y": 340,
         "wires": [
             []
@@ -603,7 +595,7 @@
         "upload": false,
         "skipBodyParsing": false,
         "swaggerDoc": "",
-        "x": 650,
+        "x": 690,
         "y": 460,
         "wires": [
             [
@@ -618,7 +610,7 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 850,
+        "x": 890,
         "y": 460,
         "wires": []
     },
@@ -627,7 +619,7 @@
         "type": "subflow:30cb8fea6816ddac",
         "z": "98e65c71f4f47d26",
         "name": "",
-        "x": 1080,
+        "x": 1120,
         "y": 140,
         "wires": []
     },
@@ -650,7 +642,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 870,
+        "x": 910,
         "y": 140,
         "wires": [
             [
@@ -663,7 +655,7 @@
         "type": "subflow:1b7de135bcc21037",
         "z": "98e65c71f4f47d26",
         "name": "",
-        "x": 660,
+        "x": 700,
         "y": 140,
         "wires": [
             [
@@ -690,7 +682,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
+        "x": 480,
         "y": 140,
         "wires": [
             [
@@ -717,7 +709,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 450,
+        "x": 490,
         "y": 220,
         "wires": [
             [
@@ -750,7 +742,7 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 650,
+        "x": 690,
         "y": 520,
         "wires": [
             []
@@ -771,7 +763,7 @@
         "correl": "",
         "expiry": "",
         "broker": "4ff2fccc733d9e85",
-        "x": 850,
+        "x": 890,
         "y": 520,
         "wires": []
     },
@@ -787,8 +779,7 @@
                 "bbfd9428f956a630"
             ],
             [
-                "e2e1c64f0e9c0a20",
-                "917d44b98db5dbc3"
+                "e2e1c64f0e9c0a20"
             ]
         ]
     },
@@ -1009,14 +1000,18 @@
         ]
     },
     {
-        "id": "917d44b98db5dbc3",
-        "type": "link call",
+        "id": "d9cb404a64ff109f",
+        "type": "function",
         "z": "98e65c71f4f47d26",
         "name": "Remplacer ce noeud par un autre protocole",
-        "links": [],
-        "linkType": "dynamic",
-        "timeout": "30",
-        "x": 530,
+        "func": "return msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
         "y": 400,
         "wires": [
             []
@@ -1092,20 +1087,6 @@
         ]
     },
     {
-        "id": "e631058b031728ce",
-        "type": "link call",
-        "z": "cdafdf46fc58dada",
-        "name": "Remplacer ce noeud par un autre protocole",
-        "links": [],
-        "linkType": "dynamic",
-        "timeout": "30",
-        "x": 370,
-        "y": 260,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "6cddc8edbd6344ce",
         "type": "comment",
         "z": "cdafdf46fc58dada",
@@ -1114,6 +1095,24 @@
         "x": 390,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "d013b614d25d1e05",
+        "type": "function",
+        "z": "cdafdf46fc58dada",
+        "name": "Remplacer ce noeud par un autre protocole",
+        "func": "return msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 260,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "087d0609f15e4470",
@@ -1275,7 +1274,8 @@
         "y": 140,
         "wires": [
             [
-                "ba8cce9fd61f7496"
+                "ba8cce9fd61f7496",
+                "5f04c8adb773f600"
             ]
         ]
     },
@@ -1299,8 +1299,8 @@
         "type": "subflow:1fb67481477b8b1b",
         "z": "ff714d58265036a6",
         "name": "",
-        "x": 600,
-        "y": 140,
+        "x": 120,
+        "y": 220,
         "wires": [
             [
                 "ad0befec92877240"
@@ -1324,8 +1324,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 830,
-        "y": 140,
+        "x": 350,
+        "y": 220,
         "wires": [
             [
                 "f05ded8aaabcbabf"
@@ -1344,8 +1344,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1080,
-        "y": 140,
+        "x": 600,
+        "y": 220,
         "wires": [
             []
         ]
@@ -1359,6 +1359,31 @@
         "x": 330,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "5f04c8adb773f600",
+        "type": "change",
+        "z": "ff714d58265036a6",
+        "name": "payload = \"\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 140,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "2d456df31383168e",
@@ -2106,26 +2131,6 @@
         ]
     },
     {
-        "id": "7d9e00e6efb439f4",
-        "type": "function",
-        "z": "15181106bda4897a",
-        "name": "rafraichissementObtenir",
-        "func": "msg. rate = msg. payload. rafraichissement * 1000;\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 450,
-        "y": 220,
-        "wires": [
-            [
-                "1c525056f96db48b"
-            ]
-        ]
-    },
-    {
         "id": "3039b2d3d522a24b",
         "type": "comment",
         "z": "15181106bda4897a",
@@ -2144,7 +2149,7 @@
         "y": 220,
         "wires": [
             [
-                "7d9e00e6efb439f4"
+                "32a7b2908ec2bb07"
             ]
         ]
     },
@@ -2165,7 +2170,7 @@
         "drop": true,
         "allowrate": true,
         "outputs": 1,
-        "x": 690,
+        "x": 730,
         "y": 220,
         "wires": [
             [
@@ -2225,6 +2230,34 @@
         "y": 300,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "32a7b2908ec2bb07",
+        "type": "change",
+        "z": "15181106bda4897a",
+        "name": "rate = payload. rafraichissement",
+        "rules": [
+            {
+                "t": "set",
+                "p": "rate",
+                "pt": "msg",
+                "to": "payload.rafraichissement",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 220,
+        "wires": [
+            [
+                "1c525056f96db48b"
+            ]
         ]
     },
     {
@@ -2401,92 +2434,6 @@
         "z": "7bc941ef9b9f5be1",
         "x": 340,
         "y": 400,
-        "wires": []
-    },
-    {
-        "id": "5dd57c6de1e154b4",
-        "type": "inject",
-        "z": "9da9de4d95375b09",
-        "d": true,
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 80,
-        "wires": [
-            [
-                "7f15d709d8a8d7fb"
-            ]
-        ]
-    },
-    {
-        "id": "ade25816737c6002",
-        "type": "mqtt in",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "topic": "#",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "4ff2fccc733d9e85",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 110,
-        "y": 140,
-        "wires": [
-            [
-                "50da1f1f28ca25e7"
-            ]
-        ]
-    },
-    {
-        "id": "7f15d709d8a8d7fb",
-        "type": "mqtt out",
-        "z": "9da9de4d95375b09",
-        "d": true,
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "x": 290,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "50da1f1f28ca25e7",
-        "type": "debug",
-        "z": "9da9de4d95375b09",
-        "name": "debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 270,
-        "y": 140,
         "wires": []
     }
 ]
