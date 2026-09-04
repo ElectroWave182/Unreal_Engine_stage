@@ -12,3 +12,8 @@ https://nodered.org/docs/getting-started/local ;
 * Aller à l'adresse `localhost:1880` sur navigateur (il sera alors possible de modifier le script Node-RED) ;
 * Cliquer sur le menu à tiroir en haut à droite, et sélectionner "Import" ;
 Cliquer sur "select a file to import", et choisir le fichier `node-red/flows.json`.
+
+
+### Tâches
+
+https://docs.google.com/spreadsheets/d/1RYcQX2UUO73awseFjlRDUsB50W_N3_zUiZNgJYsleSA/edit?gid=1391753283#gid=1391753283
