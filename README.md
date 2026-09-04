@@ -16,4 +16,4 @@ Cliquer sur "select a file to import", et choisir le fichier `node-red/flows.jso
 
 ### Tâches
 
-https://docs.google.com/spreadsheets/d/1RYcQX2UUO73awseFjlRDUsB50W_N3_zUiZNgJYsleSA/edit?gid=1391753283#gid=1391753283
+https://docs.google.com/spreadsheets/d/1RYcQX2UUO73awseFjlRDUsB50W_N3_zUiZNgJYsleSA
