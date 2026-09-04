@@ -8,14 +8,6 @@
         "env": []
     },
     {
-        "id": "9da9de4d95375b09",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": true,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "98e65c71f4f47d26",
         "type": "subflow",
         "name": "protocolesEntree",
@@ -463,37 +455,6 @@
         "h": 142
     },
     {
-        "id": "4ff2fccc733d9e85",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "99d233a1b2084afb98a3f75dd7fbd620.s1.eu.hivemq.cloud",
-        "port": "8883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "5",
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
         "id": "e3dc61b2f8de639f",
         "type": "global-config",
         "env": [],
@@ -502,37 +463,6 @@
             "node-red-contrib-require": "0.1.1",
             "node-red-contrib-ur-robot": "1.0.4"
         }
-    },
-    {
-        "id": "fe84efb613ac2374",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "mqtt.eclipse.org",
-        "port": "8883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
     },
     {
         "id": "74c30472a640fc47",
@@ -776,7 +706,7 @@
         "topic": "",
         "qos": "2",
         "datatype": "auto-detect",
-        "broker": "4ff2fccc733d9e85",
+        "broker": "",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -801,7 +731,7 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "4ff2fccc733d9e85",
+        "broker": "",
         "x": 890,
         "y": 520,
         "wires": []
@@ -2474,207 +2404,5 @@
         "x": 340,
         "y": 400,
         "wires": []
-    },
-    {
-        "id": "5dd57c6de1e154b4",
-        "type": "inject",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "coucou",
-        "payloadType": "str",
-        "x": 110,
-        "y": 80,
-        "wires": [
-            [
-                "7f15d709d8a8d7fb"
-            ]
-        ]
-    },
-    {
-        "id": "ade25816737c6002",
-        "type": "mqtt in",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "topic": "99d233a1b2084afb98a3f75dd7fbd620.s1.eu.hivemq.cloud",
-        "qos": "0",
-        "datatype": "auto-detect",
-        "broker": "4ff2fccc733d9e85",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 270,
-        "y": 140,
-        "wires": [
-            [
-                "50da1f1f28ca25e7"
-            ]
-        ]
-    },
-    {
-        "id": "7f15d709d8a8d7fb",
-        "type": "mqtt out",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "fe84efb613ac2374",
-        "x": 270,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "50da1f1f28ca25e7",
-        "type": "debug",
-        "z": "9da9de4d95375b09",
-        "name": "debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 590,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "5fe4da68049824a3",
-        "type": "function",
-        "z": "9da9de4d95375b09",
-        "name": "function 1",
-        "func": "const mqtt = msg. mqtt;\n\nconst WebSocket = msg. ws;\n\n\n\n\n\n// =========================\n\n// 1. CONFIG HIVE MQ\n\n// =========================\n\nconst MQTT_HOST = \"mqtt://52c78340daef4e57a35c503e8d20343d.s1.eu.hivemq.cloud\";\n\nconst MQTT_OPTIONS = {\n\n    username: \"inp-hololens\",\n\n    password: \"!!.d6Rrh.bh3QwL4\",\n\n};\n\n\n\n\n\n// =========================\n\n// 2. WEBSOCKET SERVER (UNREAL)\n\n// =========================\n\nconst wss = new WebSocket.Server({ port: 8080 });\n\n\n\nwss.on('connection', (ws) => {\n\n    msg. a = \"Unreal connecté via WebSocket\";\n\n});\n\n\n\n\n\n// =========================\n\n// 3. MQTT CLIENT\n\n// =========================\n\nconst client = mqtt.connect(MQTT_HOST, MQTT_OPTIONS);\n\n\n\nclient.on('connect', () => {\n\n    msg. b = \"connecté\";\n\n\n\n    // 👉 ton topic Unity\n\n    client.subscribe(\"TestUnreal\");\n\n});\n\n\n\n\n\nclient.on('message', (topic, message) => {\n\n    const payload = message.toString();\n\n\n\n    msg. c = \"MQTT reçu\";\n\n\n\n    // broadcast vers Unreal\n\n    wss.clients.forEach(client => {\n\n        if (client.readyState === WebSocket.OPEN) {\n\n            client.send(payload);\n\n        }\n\n    });\n\n});",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 620,
-        "y": 200,
-        "wires": [
-            [
-                "b43630334c7f5ea6"
-            ]
-        ]
-    },
-    {
-        "id": "b43630334c7f5ea6",
-        "type": "debug",
-        "z": "9da9de4d95375b09",
-        "name": "debug",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 790,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "cfe461a56ab274ed",
-        "type": "inject",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 200,
-        "wires": [
-            [
-                "a3ed0a5af7375e64"
-            ]
-        ]
-    },
-    {
-        "id": "a3ed0a5af7375e64",
-        "type": "require",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "module": "mqtt",
-        "field": "mqtt",
-        "fieldType": "msg",
-        "x": 290,
-        "y": 200,
-        "wires": [
-            [
-                "32da7ab1f49fbee4"
-            ]
-        ]
-    },
-    {
-        "id": "32da7ab1f49fbee4",
-        "type": "require",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "module": "ws",
-        "field": "ws",
-        "fieldType": "msg",
-        "x": 450,
-        "y": 200,
-        "wires": [
-            [
-                "5fe4da68049824a3"
-            ]
-        ]
-    },
-    {
-        "id": "896f327360c4dca9",
-        "type": "mqtt in",
-        "z": "9da9de4d95375b09",
-        "name": "",
-        "topic": "",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "fe84efb613ac2374",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 1,
-        "x": 110,
-        "y": 260,
-        "wires": [
-            []
-        ]
     }
 ]
